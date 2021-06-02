@@ -1,13 +1,13 @@
 package com.konkuk.solvedac.user.application;
 
-import static com.konkuk.solvedac.api.Constants.*;
+import static com.konkuk.solvedac.api.Constants.SERVER_URL;
+import static com.konkuk.solvedac.api.Constants.SOLVED_PROBLEMS_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.konkuk.solvedac.api.Constants;
 import com.konkuk.solvedac.api.application.ProblemsProvider;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;

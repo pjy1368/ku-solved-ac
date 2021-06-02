@@ -1,6 +1,8 @@
 package com.konkuk.solvedac.api.application;
 
-import static com.konkuk.solvedac.api.Constants.*;
+import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
+import static com.konkuk.solvedac.api.Constants.SERVER_URL;
+import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
