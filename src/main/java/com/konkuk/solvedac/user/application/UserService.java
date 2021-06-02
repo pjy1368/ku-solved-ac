@@ -35,4 +35,18 @@ public class UserService {
         }
         return ProblemInfoResponses.of(problems);
     }
+
+    public ProblemInfoResponses showUnsolvedProblemsOfUsers(ProblemInfoResponses allProblemResponse,
+        ProblemInfoResponses solvedProblemResponse) {
+        final Set<Problem> allProblems = allProblemResponse.getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(LinkedHashSet::new, LinkedHashSet::add, LinkedHashSet::addAll);
+
+        final List<Problem> solvedProblems = solvedProblemResponse.getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toList());
+
+        allProblems.removeAll(solvedProblems);
+        return ProblemInfoResponses.of(allProblems);
+    }
 }
