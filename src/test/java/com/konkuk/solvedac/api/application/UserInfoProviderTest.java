@@ -14,6 +14,7 @@ import com.konkuk.solvedac.user.dto.UsersResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
@@ -33,6 +34,7 @@ class UserInfoProviderTest {
     private ObjectMapper mapper;
 
     @Test
+    @DisplayName("특정 그룹에 있는 유저를 가져온다.")
     void getUserInfoInGroup() throws JsonProcessingException {
         final String expectedGroupId = "194";
         final List<UserInfoResponse> users = Collections.singletonList(
@@ -52,6 +54,7 @@ class UserInfoProviderTest {
     }
 
     @Test
+    @DisplayName("특정 그룹에 있는 유저들을 가져온다.")
     void getUserInfosInGroup() throws JsonProcessingException {
         final String expectedGroupId = "194";
         final List<UserInfoResponse> users = Arrays.asList(

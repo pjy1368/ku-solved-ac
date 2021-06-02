@@ -16,6 +16,7 @@ import com.konkuk.solvedac.problem.dto.ProblemsResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
@@ -35,6 +36,7 @@ class ProblemsProviderTest {
     private ObjectMapper mapper;
 
     @Test
+    @DisplayName("특정 유저가 푼 문제를 가져온다.")
     void getSolvedProblem() throws JsonProcessingException {
         final String expectedMemberId = "test";
         final List<ProblemInfoResponse> problems = Collections.singletonList(
@@ -53,6 +55,7 @@ class ProblemsProviderTest {
     }
 
     @Test
+    @DisplayName("특정 유저가 푼 문제들을 가져온다.")
     void getSolvedProblems() throws JsonProcessingException {
         final String expectedMemberId = "test2";
         final List<ProblemInfoResponse> problems = Arrays.asList(
@@ -73,6 +76,7 @@ class ProblemsProviderTest {
     }
 
     @Test
+    @DisplayName("전체 문제들을 가져온다.")
     void getAllProblems() throws JsonProcessingException {
         final List<ProblemInfoResponse> problems = Arrays.asList(
             new ProblemInfoResponse(1000L, 1L, (short) 1, (short) 1, "A+B", 126343L, 2.2986),
