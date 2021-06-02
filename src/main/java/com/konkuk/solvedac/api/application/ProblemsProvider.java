@@ -39,12 +39,12 @@ public class ProblemsProvider {
         final ProblemResultResponse result = Objects.requireNonNull(initialProblemsResponse).getResult();
 
         final long totalPages = Objects.requireNonNull(result.getTotalPage());
-        final List<ProblemInfoResponse> problemInfoRespons = new ArrayList<>(result.getProblems());
+        final List<ProblemInfoResponse> problemInfoResponses = new ArrayList<>(result.getProblems());
 
         for (int i = 2; i <= totalPages; i++) {
-            problemInfoRespons.addAll(Objects.requireNonNull(template.getForObject(url + "&page=" + i,
+            problemInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + "&page=" + i,
                 ProblemsResponse.class)).getResult().getProblems());
         }
-        return new ProblemInfoResponses(problemInfoRespons);
+        return new ProblemInfoResponses(problemInfoResponses);
     }
 }
