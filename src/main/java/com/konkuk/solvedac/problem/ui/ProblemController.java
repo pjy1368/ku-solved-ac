@@ -23,7 +23,7 @@ public class ProblemController {
     }
 
     @PostMapping("/problems")
-    public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestBody String memberId) {
-        return ResponseEntity.ok(problemsProvider.getSolvedProblems(memberId));
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestBody String userId) {
+        return ResponseEntity.ok(problemsProvider.getSolvedProblems(userId));
     }
 }

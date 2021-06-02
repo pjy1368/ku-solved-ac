@@ -1,3 +1,7 @@
 spring:
   jackson:
     property-naming-strategy: 'com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy'
+
+solvedAc:
+  group:
+    id: 194
