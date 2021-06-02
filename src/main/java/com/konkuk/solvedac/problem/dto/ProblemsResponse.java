@@ -1,4 +1,4 @@
-package com.konkuk.solvedac.member.dto;
+package com.konkuk.solvedac.problem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SolvedProblemsResponse {
+public class ProblemsResponse {
 
     private boolean success;
-    private SolvedProblemsResultResponse result;
+    private ProblemResultResponse result;
 }

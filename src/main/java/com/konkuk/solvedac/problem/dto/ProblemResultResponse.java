@@ -1,4 +1,4 @@
-package com.konkuk.solvedac.member.dto;
+package com.konkuk.solvedac.problem.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SolvedProblemsResultResponse {
+public class ProblemResultResponse {
 
     private Long totalProblems;
     private Long totalPage;
-    private List<ProblemResponse> problems;
+    private List<ProblemInfoResponse> problems;
 }

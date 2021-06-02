@@ -10,7 +10,6 @@ public class GlobalExceptionController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> serverExceptionHandler(RuntimeException exception) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ErrorResponse(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(exception.getMessage()));
     }
 }

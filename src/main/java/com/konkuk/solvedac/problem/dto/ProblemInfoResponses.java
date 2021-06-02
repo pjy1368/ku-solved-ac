@@ -1,4 +1,4 @@
-package com.konkuk.solvedac.member.dto;
+package com.konkuk.solvedac.problem.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProblemResponses {
+public class ProblemInfoResponses {
 
-    private List<ProblemResponse> problemResponses;
+    private List<ProblemInfoResponse> problemInfoResponses;
 }
