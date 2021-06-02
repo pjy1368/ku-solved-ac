@@ -44,7 +44,7 @@ class UserInfoProviderTest {
         final UsersResponse usersResponse = new UsersResponse(true, result);
         final String expectedResult = mapper.writeValueAsString(usersResponse);
 
-        this.mockServer.expect(requestTo(SERVER_URL + USERS_GROUP_URL + expectedGroupId + "&page=1"))
+        this.mockServer.expect(requestTo(SERVER_URL + USERS_GROUP_URL + expectedGroupId + PER_PAGE_URL + "1"))
             .andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);
@@ -65,7 +65,7 @@ class UserInfoProviderTest {
         final UsersResponse usersResponse = new UsersResponse(true, result);
         final String expectedResult = mapper.writeValueAsString(usersResponse);
 
-        this.mockServer.expect(requestTo(SERVER_URL + USERS_GROUP_URL + expectedGroupId + "&page=1"))
+        this.mockServer.expect(requestTo(SERVER_URL + USERS_GROUP_URL + expectedGroupId + PER_PAGE_URL + "1"))
             .andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);

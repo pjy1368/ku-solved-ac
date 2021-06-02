@@ -1,6 +1,7 @@
 package com.konkuk.solvedac.api.application;
 
 import static com.konkuk.solvedac.api.Constants.ALL_PROBLEMS_URL;
+import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
 import static com.konkuk.solvedac.api.Constants.SERVER_URL;
 import static com.konkuk.solvedac.api.Constants.SOLVED_PROBLEMS_URL;
 
@@ -42,7 +43,7 @@ public class ProblemsProvider {
         final List<ProblemInfoResponse> problemInfoResponses = new ArrayList<>(result.getProblems());
 
         for (int i = 2; i <= totalPages; i++) {
-            problemInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + "&page=" + i,
+            problemInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
                 ProblemsResponse.class)).getResult().getProblems());
         }
         return new ProblemInfoResponses(problemInfoResponses);

@@ -1,5 +1,6 @@
 package com.konkuk.solvedac.api.application;
 
+import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
 import static com.konkuk.solvedac.api.Constants.SERVER_URL;
 import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL;
 
@@ -24,7 +25,7 @@ public class UserInfoProvider {
     }
 
     public UserInfoResponses getUserInfosInGroup(String groupId) {
-        final String url = SERVER_URL + USERS_GROUP_URL + groupId + "&page=1";
+        final String url = SERVER_URL + USERS_GROUP_URL + groupId + PER_PAGE_URL + "1";
         return requestUserInfosInGroup(url);
     }
 
@@ -36,7 +37,7 @@ public class UserInfoProvider {
         final List<UserInfoResponse> userInfoResponses = new ArrayList<>(result.getUsers());
 
         for (int i = 2; i <= totalPages; i++) {
-            userInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + "&page=" + i,
+            userInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
                 UsersResponse.class)).getResult().getUsers());
         }
         return new UserInfoResponses(userInfoResponses);
