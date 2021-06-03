@@ -1,6 +1,7 @@
 package com.konkuk.solvedac.user.application;
 
 import com.konkuk.solvedac.api.application.ProblemsProvider;
+import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
@@ -19,10 +20,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final ProblemsProvider problemsProvider;
+    private final ProblemService problemService;
     private final UserDao userDao;
 
-    public UserService(ProblemsProvider problemsProvider, UserDao userDao) {
+    public UserService(ProblemsProvider problemsProvider, ProblemService problemService, UserDao userDao) {
         this.problemsProvider = problemsProvider;
+        this.problemService = problemService;
         this.userDao = userDao;
     }
 
@@ -34,14 +37,16 @@ public class UserService {
         userDao.batchInsert(users);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers(UserInfoResponses userInfosInGroup) {
-        final List<String> nicknames = userInfosInGroup.getUserInfoResponses().stream()
+    public ProblemInfoResponses showSolvedProblemsOfUsers(UserInfoResponses userInfoResponses) {
+        final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getNickname)
             .collect(Collectors.toList());
 
         final Set<Problem> problems = new LinkedHashSet<>();
         for (final String id : nicknames) {
-            final List<Problem> result = problemsProvider.getSolvedProblems(id).getProblemInfoResponses().stream()
+//            ProblemInfoResponses byUserId = problemService.findByUserId(id);
+//            problemService.saveProblems(id, byUserId);
+            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
                 .map(ProblemInfoResponse::toEntity)
                 .collect(Collectors.toList());
             problems.addAll(result);

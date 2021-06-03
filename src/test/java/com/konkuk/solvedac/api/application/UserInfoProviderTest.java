@@ -38,7 +38,7 @@ class UserInfoProviderTest {
     @Test
     @DisplayName("특정 그룹에 있는 유저를 가져온다.")
     void getUserInfoInGroup() throws JsonProcessingException {
-        final Long expectedGroupId = 194L;
+        final String expectedGroupId = "194";
         final List<UserInfoResponse> users = Collections.singletonList(
             new UserInfoResponse("test", "", "test.test", 100L,
                 2000L, 3, 6, 4L, 0L, 4L, 4, 344)
@@ -52,13 +52,13 @@ class UserInfoProviderTest {
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);
         assertThat(actual.getUserInfoResponses()).hasSize(1);
-        assertThat(actual.getUserInfoResponses().get(0).getUserId()).isEqualTo("test");
+        assertThat(actual.getUserInfoResponses().get(0).getNickname()).isEqualTo("test");
     }
 
     @Test
     @DisplayName("특정 그룹에 있는 유저들을 가져온다.")
     void getUserInfosInGroup() throws JsonProcessingException {
-        final Long expectedGroupId = 194L;
+        final String expectedGroupId = "194";
         final List<UserInfoResponse> users = Arrays.asList(
             new UserInfoResponse("test", "", "test.test", 100L,
                 2000L, 3, 6, 4L, 0L, 4L, 4, 344),
@@ -74,6 +74,6 @@ class UserInfoProviderTest {
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);
         assertThat(actual.getUserInfoResponses()).hasSize(2);
-        assertThat(actual.getUserInfoResponses().get(0).getUserId()).isEqualTo("test");
+        assertThat(actual.getUserInfoResponses().get(0).getNickname()).isEqualTo("test");
     }
 }
