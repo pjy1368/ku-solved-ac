@@ -26,18 +26,20 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam String groupId) {
-        return ResponseEntity.ok(userInfoProvider.getUserInfosInGroup(groupId));
+    public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam Long groupId) {
+        final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(groupId);
+        userService.saveUsers(groupId, userInfosInGroup);
+        return ResponseEntity.ok(userService.findByGroupId(groupId));
     }
 
     @PostMapping("/users/solved-problems")
-    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@RequestBody String groupId) {
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@RequestBody Long groupId) {
         final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(groupId);
         return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(userInfosInGroup));
     }
 
     @PostMapping("/users/unsolved-problems")
-    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody String groupId) {
+    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody Long groupId) {
         final ProblemInfoResponses allProblemResponse = problemsProvider.getAllProblems();
         final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(groupId);
         final ProblemInfoResponses solvedProblemResponse = userService.showSolvedProblemsOfUsers(userInfosInGroup);

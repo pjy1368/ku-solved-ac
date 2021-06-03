@@ -4,8 +4,11 @@ import com.konkuk.solvedac.api.application.ProblemsProvider;
 import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
+import com.konkuk.solvedac.user.dao.UserDao;
+import com.konkuk.solvedac.user.domain.User;
 import com.konkuk.solvedac.user.dto.UserInfoResponse;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
+import com.konkuk.solvedac.user.dto.UserResultResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,18 +19,28 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final ProblemsProvider problemsProvider;
+    private final UserDao userDao;
 
-    public UserService(ProblemsProvider problemsProvider) {
+    public UserService(ProblemsProvider problemsProvider, UserDao userDao) {
         this.problemsProvider = problemsProvider;
+        this.userDao = userDao;
+    }
+
+    public void saveUsers(Long groupId, UserInfoResponses userInfosInGroup) {
+        final List<User> users = userInfosInGroup.getUserInfoResponses().stream()
+            .map(userInfoResponse -> userInfoResponse.toEntity(groupId))
+            .collect(Collectors.toList());
+
+        userDao.batchInsert(users);
     }
 
     public ProblemInfoResponses showSolvedProblemsOfUsers(UserInfoResponses userInfosInGroup) {
-        final List<String> userIds = userInfosInGroup.getUserInfoResponses().stream()
-            .map(UserInfoResponse::getUserId)
+        final List<String> nicknames = userInfosInGroup.getUserInfoResponses().stream()
+            .map(UserInfoResponse::getNickname)
             .collect(Collectors.toList());
 
         final Set<Problem> problems = new LinkedHashSet<>();
-        for (final String id : userIds) {
+        for (final String id : nicknames) {
             final List<Problem> result = problemsProvider.getSolvedProblems(id).getProblemInfoResponses().stream()
                 .map(ProblemInfoResponse::toEntity)
                 .collect(Collectors.toList());
@@ -48,5 +61,11 @@ public class UserService {
 
         allProblems.removeAll(solvedProblems);
         return ProblemInfoResponses.of(allProblems);
+    }
+
+    public UserInfoResponses findByGroupId(Long groupId) {
+        return new UserInfoResponses(userDao.findByGroupId(groupId).stream()
+            .map(user -> new UserInfoResponse(user.getNickname()))
+            .collect(Collectors.toList()));
     }
 }

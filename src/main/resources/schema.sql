@@ -15,6 +15,7 @@ create table if not exists PROBLEM
 create table if not exists USER
 (
     id bigint auto_increment not null,
+    group_id bigint not null,
     nickname varchar(255) not null unique
 );
 

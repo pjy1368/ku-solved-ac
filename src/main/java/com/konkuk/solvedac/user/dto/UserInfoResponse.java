@@ -1,16 +1,22 @@
 package com.konkuk.solvedac.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.konkuk.solvedac.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class UserInfoResponse {
 
-    private String userId;
+    @NonNull
+    @JsonProperty("user_id")
+    private String nickname;
     private String bio;
     private String profileImageUrl;
     private Long solved;
@@ -23,4 +29,8 @@ public class UserInfoResponse {
     private Long voteCount;
     private Integer rank;
     private Integer globalRank;
+
+    public User toEntity(Long groupId) {
+        return new User(groupId, nickname);
+    }
 }
