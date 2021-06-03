@@ -44,8 +44,23 @@ public class UserService {
 
         final Set<Problem> problems = new LinkedHashSet<>();
         for (final String id : nicknames) {
-//            ProblemInfoResponses byUserId = problemService.findByUserId(id);
-//            problemService.saveProblems(id, byUserId);
+            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(id);
+            problemService.saveProblems(id, solvedProblems);
+            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
+                .map(ProblemInfoResponse::toEntity)
+                .collect(Collectors.toList());
+            problems.addAll(result);
+        }
+        return ProblemInfoResponses.of(problems);
+    }
+
+    public ProblemInfoResponses showSolvedProblemsOfUsers2(UserInfoResponses userInfoResponses) {
+        final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
+            .map(UserInfoResponse::getNickname)
+            .collect(Collectors.toList());
+
+        final Set<Problem> problems = new LinkedHashSet<>();
+        for (final String id : nicknames) {
             final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
                 .map(ProblemInfoResponse::toEntity)
                 .collect(Collectors.toList());

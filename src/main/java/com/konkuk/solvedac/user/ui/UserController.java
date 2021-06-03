@@ -2,6 +2,7 @@ package com.konkuk.solvedac.user.ui;
 
 import com.konkuk.solvedac.api.application.ProblemsProvider;
 import com.konkuk.solvedac.api.application.UserInfoProvider;
+import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
 import com.konkuk.solvedac.user.application.UserService;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserInfoProvider userInfoProvider;
-    private final ProblemsProvider problemsProvider;
+    private final ProblemService problemService;
     private final UserService userService;
 
-    public UserController(UserInfoProvider userInfoProvider, ProblemsProvider problemsProvider, UserService userService) {
+    public UserController(UserInfoProvider userInfoProvider, ProblemService problemService, UserService userService) {
         this.userInfoProvider = userInfoProvider;
-        this.problemsProvider = problemsProvider;
+        this.problemService = problemService;
         this.userService = userService;
     }
 
@@ -40,9 +41,9 @@ public class UserController {
 
     @PostMapping("/users/unsolved-problems")
     public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody String  groupId) {
-        final ProblemInfoResponses allProblemResponse = problemsProvider.getAllProblems();
-        final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(groupId);
-        final ProblemInfoResponses solvedProblemResponse = userService.showSolvedProblemsOfUsers(userInfosInGroup);
+        final ProblemInfoResponses allProblemResponse = problemService.findAll();
+        final UserInfoResponses userInfosInGroup = userService.findByGroupId(Long.parseLong(groupId));
+        final ProblemInfoResponses solvedProblemResponse = userService.showSolvedProblemsOfUsers2(userInfosInGroup);
         return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(allProblemResponse, solvedProblemResponse));
     }
 }
