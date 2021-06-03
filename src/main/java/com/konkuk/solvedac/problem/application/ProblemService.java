@@ -30,4 +30,17 @@ public class ProblemService {
             .collect(Collectors.toList());
         problemDao.batchInsert(problems);
     }
+
+    public void saveProblems(String userId, ProblemInfoResponses problemInfoResponses) {
+        final List<Problem> problems = problemInfoResponses.getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toList());
+        problemDao.batchInsert(userId, problems);
+    }
+
+    public ProblemInfoResponses findByUserId(String userId) {
+        return new ProblemInfoResponses(problemDao.findByUserId(userId).stream()
+            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .collect(Collectors.toList()));
+    }
 }

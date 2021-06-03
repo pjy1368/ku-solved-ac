@@ -38,15 +38,29 @@ public class ProblemDao {
     }
 
     public void batchInsert(List<Problem> problems) {
-        final String sql = "insert into PROBLEM (problem_id, title) values(?,?)";
+        final String sql = "insert into PROBLEM (problem_id, title) values(?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setLong(1, argument.getProblemId());
             ps.setString(2, argument.getTitle());
         });
     }
 
+    public void batchInsert(String userId, List<Problem> problems) {
+        final String sql = "insert into USER_PROBLEM_MAP (user_id, problem_id) values(?, ?)";
+        jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
+            ps.setString(1, userId);
+            ps.setLong(2, argument.getProblemId());
+        });
+    }
+
     public List<Problem> findAll() {
         final String sql = "select * from PROBLEM";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public List<Problem> findByUserId(String userId) {
+        final String sql = "select P.id, P.problem_id, P.title from PROBLEM P inner join "
+            + "USER_PROBLEM_MAP UPM on P.id = UPM.problem_id where UPM.user_id = ?";
+        return jdbcTemplate.query(sql, rowMapper, userId);
     }
 }

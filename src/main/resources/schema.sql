@@ -20,7 +20,7 @@ create table if not exists USER
 
 create table if not exists USER_PROBLEM_MAP
 (
-  user_id bigint not null,
+  user_id varchar(255) not null,
   problem_id bigint not null
 );
 
