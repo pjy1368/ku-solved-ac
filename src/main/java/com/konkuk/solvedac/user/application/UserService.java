@@ -36,31 +36,25 @@ public class UserService {
         userDao.batchInsert(users);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
+    public void saveSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getNickname)
             .collect(Collectors.toList());
 
-        final Set<Problem> problems = new LinkedHashSet<>();
         for (final String id : nicknames) {
             ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(id);
             problemService.saveProblems(id, groupId, solvedProblems);
-//            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
-//                .map(ProblemInfoResponse::toEntity)
-//                .collect(Collectors.toList());
-//            problems.addAll(result);
         }
-        return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers2(Long groupId) {
+    public ProblemInfoResponses showSolvedProblemsOfUsers(Long groupId) {
         final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
     public ProblemInfoResponses showUnsolvedProblemsOfUsers(Long groupId) {
-        final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
+        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
@@ -69,5 +63,9 @@ public class UserService {
         return new UserInfoResponses(userDao.findByGroupId(groupId).stream()
             .map(user -> new UserInfoResponse(user.getNickname()))
             .collect(Collectors.toList()));
+    }
+
+    public void deleteAll() {
+        userDao.deleteAllUsers();
     }
 }

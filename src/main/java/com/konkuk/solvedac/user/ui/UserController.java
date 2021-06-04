@@ -17,36 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserInfoProvider userInfoProvider;
-    private final ProblemService problemService;
     private final UserService userService;
 
-    public UserController(UserInfoProvider userInfoProvider, ProblemService problemService, UserService userService) {
+    public UserController(UserInfoProvider userInfoProvider, UserService userService) {
         this.userInfoProvider = userInfoProvider;
-        this.problemService = problemService;
         this.userService = userService;
     }
 
     @GetMapping("/users")
     public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam String groupId) {
-        final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(groupId);
+        final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(Long.parseLong(groupId));
         userService.saveUsers(Long.parseLong(groupId), userInfosInGroup);
-        return ResponseEntity.ok(userService.findByGroupId(Long.parseLong(groupId)));
-    }
-
-    @GetMapping("/users2")
-    public ResponseEntity<UserInfoResponses> showUserInfosInGroup2(@RequestParam String groupId) {
         return ResponseEntity.ok(userService.findByGroupId(Long.parseLong(groupId)));
     }
 
     @PostMapping("/users/solved-problems")
     public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@RequestBody String groupId) {
-        final UserInfoResponses userInfoResponses = userService.findByGroupId(Long.parseLong(groupId));
-        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(Long.parseLong(groupId), userInfoResponses));
-    }
-
-    @PostMapping("/users/solved-problems2")
-    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers2(@RequestBody String groupId) {
-        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers2(Long.parseLong(groupId)));
+        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(Long.parseLong(groupId)));
     }
 
     @PostMapping("/users/unsolved-problems")

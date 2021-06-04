@@ -59,4 +59,12 @@ public class ProblemService {
             .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
             .collect(Collectors.toList()));
     }
+
+    public void deleteAllProblems() {
+        problemDao.deleteAllProblems();
+    }
+
+    public void deleteAllProblemMap() {
+        problemDao.deleteAllProblemMap();
+    }
 }

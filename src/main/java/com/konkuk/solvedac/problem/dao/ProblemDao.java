@@ -77,4 +77,14 @@ public class ProblemDao {
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
         return jdbcTemplate.query(sql, rowMapper, groupId);
     }
+
+    public void deleteAllProblems() {
+        final String sql = "truncate table PROBLEM";
+        jdbcTemplate.update(sql);
+    }
+
+    public void deleteAllProblemMap() {
+        final String sql = "truncate table USER_PROBLEM_MAP";
+        jdbcTemplate.update(sql);
+    }
 }

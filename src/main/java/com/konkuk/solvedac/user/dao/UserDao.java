@@ -47,4 +47,9 @@ public class UserDao {
         final String sql = "select * from USER where group_id = ?";
         return jdbcTemplate.query(sql, rowMapper, groupId);
     }
+
+    public void deleteAllUsers() {
+        final String sql = "truncate table USER";
+        jdbcTemplate.update(sql);
+    }
 }

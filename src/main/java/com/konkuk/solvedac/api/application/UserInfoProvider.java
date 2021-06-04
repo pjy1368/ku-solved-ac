@@ -24,7 +24,7 @@ public class UserInfoProvider {
         this.template = restTemplateBuilder.build();
     }
 
-    public UserInfoResponses getUserInfosInGroup(String groupId) {
+    public UserInfoResponses getUserInfosInGroup(Long groupId) {
         final String url = SERVER_URL + USERS_GROUP_URL + groupId + PER_PAGE_URL + "1";
         return requestUserInfosInGroup(url);
     }
