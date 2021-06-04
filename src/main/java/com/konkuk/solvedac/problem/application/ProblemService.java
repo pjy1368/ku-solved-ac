@@ -32,14 +32,30 @@ public class ProblemService {
     }
 
     public void saveProblems(String userId, ProblemInfoResponses problemInfoResponses) {
+        saveProblems(userId, null, problemInfoResponses);
+    }
+
+    public void saveProblems(String userId, Long groupId, ProblemInfoResponses problemInfoResponses) {
         final List<Problem> problems = problemInfoResponses.getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity)
             .collect(Collectors.toList());
-        problemDao.batchInsert(userId, problems);
+        problemDao.batchInsert(userId, groupId, problems);
     }
 
     public ProblemInfoResponses findByUserId(String userId) {
         return new ProblemInfoResponses(problemDao.findByUserId(userId).stream()
+            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .collect(Collectors.toList()));
+    }
+
+    public ProblemInfoResponses findSolvedProblemByGroupId(Long groupId) {
+        return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupId(groupId).stream()
+            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .collect(Collectors.toList()));
+    }
+
+    public ProblemInfoResponses findUnsolvedProblemByGroupId(Long groupId) {
+        return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupId(groupId).stream()
             .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
             .collect(Collectors.toList()));
     }

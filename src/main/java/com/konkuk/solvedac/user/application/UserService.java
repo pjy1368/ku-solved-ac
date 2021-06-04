@@ -9,7 +9,6 @@ import com.konkuk.solvedac.user.dao.UserDao;
 import com.konkuk.solvedac.user.domain.User;
 import com.konkuk.solvedac.user.dto.UserInfoResponse;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
-import com.konkuk.solvedac.user.dto.UserResultResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class UserService {
         userDao.batchInsert(users);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers(UserInfoResponses userInfoResponses) {
+    public ProblemInfoResponses showSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getNickname)
             .collect(Collectors.toList());
@@ -45,42 +44,25 @@ public class UserService {
         final Set<Problem> problems = new LinkedHashSet<>();
         for (final String id : nicknames) {
             ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(id);
-            problemService.saveProblems(id, solvedProblems);
-            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
-                .map(ProblemInfoResponse::toEntity)
-                .collect(Collectors.toList());
-            problems.addAll(result);
+            problemService.saveProblems(id, groupId, solvedProblems);
+//            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
+//                .map(ProblemInfoResponse::toEntity)
+//                .collect(Collectors.toList());
+//            problems.addAll(result);
         }
         return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers2(UserInfoResponses userInfoResponses) {
-        final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
-            .map(UserInfoResponse::getNickname)
-            .collect(Collectors.toList());
-
-        final Set<Problem> problems = new LinkedHashSet<>();
-        for (final String id : nicknames) {
-            final List<Problem> result = problemService.findByUserId(id).getProblemInfoResponses().stream()
-                .map(ProblemInfoResponse::toEntity)
-                .collect(Collectors.toList());
-            problems.addAll(result);
-        }
+    public ProblemInfoResponses showSolvedProblemsOfUsers2(Long groupId) {
+        final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showUnsolvedProblemsOfUsers(ProblemInfoResponses allProblemResponse,
-        ProblemInfoResponses solvedProblemResponse) {
-        final Set<Problem> allProblems = allProblemResponse.getProblemInfoResponses().stream()
-            .map(ProblemInfoResponse::toEntity)
-            .collect(LinkedHashSet::new, LinkedHashSet::add, LinkedHashSet::addAll);
-
-        final List<Problem> solvedProblems = solvedProblemResponse.getProblemInfoResponses().stream()
-            .map(ProblemInfoResponse::toEntity)
-            .collect(Collectors.toList());
-
-        allProblems.removeAll(solvedProblems);
-        return ProblemInfoResponses.of(allProblems);
+    public ProblemInfoResponses showUnsolvedProblemsOfUsers(Long groupId) {
+        final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
+        return ProblemInfoResponses.of(problems);
     }
 
     public UserInfoResponses findByGroupId(Long groupId) {

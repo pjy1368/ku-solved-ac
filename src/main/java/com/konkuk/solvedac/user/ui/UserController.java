@@ -33,17 +33,24 @@ public class UserController {
         return ResponseEntity.ok(userService.findByGroupId(Long.parseLong(groupId)));
     }
 
+    @GetMapping("/users2")
+    public ResponseEntity<UserInfoResponses> showUserInfosInGroup2(@RequestParam String groupId) {
+        return ResponseEntity.ok(userService.findByGroupId(Long.parseLong(groupId)));
+    }
+
     @PostMapping("/users/solved-problems")
     public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@RequestBody String groupId) {
         final UserInfoResponses userInfoResponses = userService.findByGroupId(Long.parseLong(groupId));
-        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(userInfoResponses));
+        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(Long.parseLong(groupId), userInfoResponses));
+    }
+
+    @PostMapping("/users/solved-problems2")
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers2(@RequestBody String groupId) {
+        return ResponseEntity.ok(userService.showSolvedProblemsOfUsers2(Long.parseLong(groupId)));
     }
 
     @PostMapping("/users/unsolved-problems")
-    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody String  groupId) {
-        final ProblemInfoResponses allProblemResponse = problemService.findAll();
-        final UserInfoResponses userInfosInGroup = userService.findByGroupId(Long.parseLong(groupId));
-        final ProblemInfoResponses solvedProblemResponse = userService.showSolvedProblemsOfUsers2(userInfosInGroup);
-        return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(allProblemResponse, solvedProblemResponse));
+    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody String groupId) {
+        return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(Long.parseLong(groupId)));
     }
 }

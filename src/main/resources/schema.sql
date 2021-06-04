@@ -15,13 +15,14 @@ create table if not exists PROBLEM
 create table if not exists USER
 (
     id bigint auto_increment not null,
-    group_id bigint not null,
+    group_id bigint,
     nickname varchar(255) not null unique
 );
 
 create table if not exists USER_PROBLEM_MAP
 (
   user_id varchar(255) not null,
+  group_id bigint,
   problem_id bigint not null
 );
 

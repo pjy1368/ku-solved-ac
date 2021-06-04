@@ -27,10 +27,20 @@ public class ProblemController {
         return ResponseEntity.ok(problemService.findAll());
     }
 
+    @GetMapping("/problems2")
+    public ResponseEntity<ProblemInfoResponses> showAllProblems2() {
+        return ResponseEntity.ok(problemService.findAll());
+    }
+
     @PostMapping("/problems")
     public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestBody String userId) {
         final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(userId);
         problemService.saveProblems(userId, solvedProblems);
+        return ResponseEntity.ok(problemService.findByUserId(userId));
+    }
+
+    @PostMapping("/problems2")
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblems2(@RequestBody String userId) {
         return ResponseEntity.ok(problemService.findByUserId(userId));
     }
 }
