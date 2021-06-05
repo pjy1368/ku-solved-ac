@@ -41,9 +41,9 @@ public class UserService {
             .map(UserInfoResponse::getNickname)
             .collect(Collectors.toList());
 
-        for (final String id : nicknames) {
-            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(id);
-            problemService.saveProblems(id, groupId, solvedProblems);
+        for (final String nickname : nicknames) {
+            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
+            problemService.saveProblems(nickname, groupId, solvedProblems);
         }
     }
 

@@ -19,7 +19,7 @@ public class ProblemService {
 
     public ProblemInfoResponses findAll() {
         final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAll().stream()
-            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getTitle()))
             .collect(Collectors.toList());
         return new ProblemInfoResponses(problemInfoResponses);
     }
@@ -44,19 +44,19 @@ public class ProblemService {
 
     public ProblemInfoResponses findByUserId(String userId) {
         return new ProblemInfoResponses(problemDao.findByUserId(userId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getTitle()))
             .collect(Collectors.toList()));
     }
 
     public ProblemInfoResponses findSolvedProblemByGroupId(Long groupId) {
         return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupId(groupId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getTitle()))
             .collect(Collectors.toList()));
     }
 
     public ProblemInfoResponses findUnsolvedProblemByGroupId(Long groupId) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupId(groupId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getProblemId(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getTitle()))
             .collect(Collectors.toList()));
     }
 

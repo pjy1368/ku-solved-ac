@@ -25,8 +25,8 @@ public class ProblemsProvider {
         this.template = restTemplateBuilder.build();
     }
 
-    public ProblemInfoResponses getSolvedProblems(String id) {
-        final String url = SERVER_URL + SOLVED_PROBLEMS_URL + id;
+    public ProblemInfoResponses getSolvedProblems(String nickname) {
+        final String url = SERVER_URL + SOLVED_PROBLEMS_URL + nickname;
         return requestProblems(url);
     }
 

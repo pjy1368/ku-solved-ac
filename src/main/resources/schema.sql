@@ -7,8 +7,7 @@ drop table if exists TEMP_USER_PROBLEM_MAP;
 
 create table if not exists PROBLEM
 (
-    id bigint auto_increment not null,
-    problem_id bigint not null unique,
+    id bigint not null unique,
     title varchar(255) not null
 );
 
@@ -28,18 +27,20 @@ create table if not exists USER_PROBLEM_MAP
 
 create table if not exists TEMP_PROBLEM
 (
-    id bigint auto_increment not null,
+    id bigint not null unique,
     title varchar(255) not null
 );
 
 create table if not exists TEMP_USER
 (
     id bigint auto_increment not null,
+    group_id bigint,
     nickname varchar(255) not null unique
 );
 
 create table if not exists TEMP_USER_PROBLEM_MAP
 (
     user_id bigint not null,
+    group_id bigint,
     problem_id bigint not null
 );
