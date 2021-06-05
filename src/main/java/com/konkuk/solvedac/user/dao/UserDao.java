@@ -19,6 +19,7 @@ public class UserDao {
     private final RowMapper<User> rowMapper = (rs, rowNum) ->
         new User(
             rs.getLong("id"),
+            rs.getLong("group_id"),
             rs.getString("nickname")
         );
 
@@ -41,6 +42,11 @@ public class UserDao {
             ps.setLong(1, argument.getGroupId());
             ps.setString(2, argument.getNickname());
         });
+    }
+
+    public List<User> findAll() {
+        final String sql = "select * from USER";
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     public List<User> findByGroupId(Long groupId) {
