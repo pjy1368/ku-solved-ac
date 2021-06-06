@@ -22,7 +22,7 @@ public class ProblemController {
 
     @GetMapping("/problems")
     public ResponseEntity<ProblemInfoResponses> showAllProblems() {
-        return ResponseEntity.ok(problemService.findAll());
+        return ResponseEntity.ok(problemService.findAllProblems());
     }
 
     @PostMapping("/problems")

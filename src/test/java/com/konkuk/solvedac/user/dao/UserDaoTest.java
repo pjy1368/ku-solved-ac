@@ -1,10 +1,8 @@
 package com.konkuk.solvedac.user.dao;
 
+import static com.konkuk.solvedac.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.konkuk.solvedac.user.domain.User;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,22 +20,16 @@ class UserDaoTest {
 
     private UserDao userDao;
 
-    final List<User> users = Arrays.asList(
-        new User("pjy1368", 194L),
-        new User("whitePiano", 194L)
-    );
-
     @BeforeEach
     void setUp() {
         userDao = new UserDao(jdbcTemplate);
-        userDao.batchInsert(users);
+        userDao.batchInsert(USERS);
     }
 
     @Test
     @DisplayName("그룹 아이디로 유저 리스트를 조회한다.")
     void findByGroupId() {
-        final Long groupId = 194L;
-        assertThat(userDao.findByGroupId(groupId)).isEqualTo(users);
+        assertThat(userDao.findByGroupId(GROUP_ID)).isEqualTo(USERS);
     }
 
     @Test
