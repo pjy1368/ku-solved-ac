@@ -43,4 +43,9 @@ public class UserDao {
         final String sql = "truncate table USER";
         jdbcTemplate.update(sql);
     }
+
+    public boolean existsByGroupId(Long groupId) {
+        final String sql = "select exists(select * from USER where group_id = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, groupId);
+    }
 }

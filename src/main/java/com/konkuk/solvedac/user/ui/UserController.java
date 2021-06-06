@@ -26,8 +26,10 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam String groupId) {
-        final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(Long.parseLong(groupId));
-        userService.saveUsers(Long.parseLong(groupId), userInfosInGroup);
+        if (!userService.isSavedUserInGroup(Long.parseLong(groupId))) {
+            final UserInfoResponses userInfosInGroup = userInfoProvider.getUserInfosInGroup(Long.parseLong(groupId));
+            userService.saveUsers(Long.parseLong(groupId), userInfosInGroup);
+        }
         return ResponseEntity.ok(userService.findByGroupId(Long.parseLong(groupId)));
     }
 

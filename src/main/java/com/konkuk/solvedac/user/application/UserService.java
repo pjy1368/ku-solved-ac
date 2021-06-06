@@ -68,4 +68,8 @@ public class UserService {
     public void deleteAll() {
         userDao.deleteAllUsers();
     }
+
+    public boolean isSavedUserInGroup(Long groupId) {
+        return userDao.existsByGroupId(groupId);
+    }
 }
