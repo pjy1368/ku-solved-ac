@@ -38,7 +38,7 @@ public class UserService {
 
     public void saveSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
-            .map(UserInfoResponse::getNickname)
+            .map(UserInfoResponse::getId)
             .collect(Collectors.toList());
 
         for (final String nickname : nicknames) {
@@ -61,7 +61,7 @@ public class UserService {
 
     public UserInfoResponses findByGroupId(Long groupId) {
         return new UserInfoResponses(userDao.findByGroupId(groupId).stream()
-            .map(user -> new UserInfoResponse(user.getNickname()))
+            .map(user -> new UserInfoResponse(user.getId()))
             .collect(Collectors.toList()));
     }
 

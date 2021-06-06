@@ -21,11 +21,6 @@ public class ProblemDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Problem insert(Problem problem) {
-        final String sql = "insert INFO PROBLEM (id, title) values(?, ?)";
-        return new Problem(problem.getId(), problem.getTitle());
-    }
-
     public void batchInsert(List<Problem> problems) {
         final String sql = "insert into PROBLEM (id, title) values(?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {

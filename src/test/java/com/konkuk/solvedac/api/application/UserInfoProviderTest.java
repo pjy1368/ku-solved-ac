@@ -52,7 +52,7 @@ class UserInfoProviderTest {
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);
         assertThat(actual.getUserInfoResponses()).hasSize(1);
-        assertThat(actual.getUserInfoResponses().get(0).getNickname()).isEqualTo("test");
+        assertThat(actual.getUserInfoResponses().get(0).getId()).isEqualTo("test");
     }
 
     @Test
@@ -74,6 +74,6 @@ class UserInfoProviderTest {
 
         final UserInfoResponses actual = userInfoProvider.getUserInfosInGroup(expectedGroupId);
         assertThat(actual.getUserInfoResponses()).hasSize(2);
-        assertThat(actual.getUserInfoResponses().get(0).getNickname()).isEqualTo("test");
+        assertThat(actual.getUserInfoResponses().get(0).getId()).isEqualTo("test");
     }
 }

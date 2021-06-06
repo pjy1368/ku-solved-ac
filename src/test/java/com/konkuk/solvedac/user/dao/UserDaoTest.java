@@ -5,45 +5,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.konkuk.solvedac.user.domain.User;
 import java.util.Arrays;
 import java.util.List;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @JdbcTest
+@Transactional
 class UserDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private DataSource dataSource;
-
     private UserDao userDao;
+
+    final List<User> users = Arrays.asList(
+        new User("pjy1368", 194L),
+        new User("whitePiano", 194L)
+    );
 
     @BeforeEach
     void setUp() {
-        userDao = new UserDao(jdbcTemplate, dataSource);
-        userDao.insert(new User(194L, "pjy1368"));
-        userDao.insert(new User(194L, "whitePiano"));
+        userDao = new UserDao(jdbcTemplate);
+        userDao.batchInsert(users);
     }
 
     @Test
     @DisplayName("그룹 아이디로 유저 리스트를 조회한다.")
     void findByGroupId() {
         final Long groupId = 194L;
-        final List<User> expected = Arrays.asList(
-            new User(groupId, "pjy1368"),
-            new User(groupId, "whitePiano")
-        );
 
         assertThat(userDao.findByGroupId(groupId))
             .usingRecursiveComparison()
             .ignoringFields("id")
-            .isEqualTo(expected);
+            .isEqualTo(users);
     }
 
     @Test

@@ -16,7 +16,7 @@ public class UserInfoResponse {
 
     @NonNull
     @JsonProperty("user_id")
-    private String nickname;
+    private String id;
     private String bio;
     private String profileImageUrl;
     private Long solved;
@@ -31,6 +31,6 @@ public class UserInfoResponse {
     private Integer globalRank;
 
     public User toEntity(Long groupId) {
-        return new User(groupId, nickname);
+        return new User(id, groupId);
     }
 }

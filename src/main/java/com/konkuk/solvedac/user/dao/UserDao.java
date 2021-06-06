@@ -1,5 +1,6 @@
 package com.konkuk.solvedac.user.dao;
 
+import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.user.domain.User;
 import java.util.List;
 import javax.sql.DataSource;
@@ -14,33 +15,22 @@ import org.springframework.stereotype.Repository;
 public class UserDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert insertAction;
+
+    public UserDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final RowMapper<User> rowMapper = (rs, rowNum) ->
         new User(
-            rs.getLong("id"),
-            rs.getLong("group_id"),
-            rs.getString("nickname")
+            rs.getString("id"),
+            rs.getLong("group_id")
         );
 
-    public UserDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.insertAction = new SimpleJdbcInsert(dataSource)
-            .withTableName("USER")
-            .usingGeneratedKeyColumns("id");
-    }
-
-    public User insert(User user) {
-        final SqlParameterSource params = new BeanPropertySqlParameterSource(user);
-        final Long id = insertAction.executeAndReturnKey(params).longValue();
-        return new User(id, user.getGroupId(), user.getNickname());
-    }
-
     public void batchInsert(List<User> users) {
-        final String sql = "insert into USER (group_id, nickname) values(?, ?)";
+        final String sql = "insert into USER (id, group_id) values(?, ?)";
         jdbcTemplate.batchUpdate(sql, users, users.size(), (ps, argument) -> {
-            ps.setLong(1, argument.getGroupId());
-            ps.setString(2, argument.getNickname());
+            ps.setString(1, argument.getId());
+            ps.setLong(2, argument.getGroupId());
         });
     }
 
