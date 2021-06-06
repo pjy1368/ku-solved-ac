@@ -67,4 +67,8 @@ public class ProblemService {
     public void deleteAllProblemMap() {
         problemDao.deleteAllProblemMap();
     }
+
+    public boolean isAlreadyMappedUserProblems(String userId) {
+        return problemDao.isAlreadyMappedUserProblems(userId);
+    }
 }

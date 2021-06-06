@@ -108,4 +108,12 @@ class ProblemDaoTest {
         assertThatCode(() -> problemDao.deleteAllProblemMap())
             .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("특정 유저가 푼 문제 리스트가 있는지 확인한다.")
+    void isAlreadyMappedUserProblems() {
+        assertThat(problemDao.isAlreadyMappedUserProblems("pjy1368")).isTrue();
+        assertThat(problemDao.isAlreadyMappedUserProblems("whitePiano")).isTrue();
+        assertThat(problemDao.isAlreadyMappedUserProblems("xxx")).isFalse();
+    }
 }

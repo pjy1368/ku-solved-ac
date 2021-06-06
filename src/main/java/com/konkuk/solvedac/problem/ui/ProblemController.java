@@ -27,8 +27,10 @@ public class ProblemController {
 
     @PostMapping("/problems")
     public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestBody String userId) {
-        final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(userId);
-        problemService.saveProblems(userId, solvedProblems);
+        if (problemService.isAlreadyMappedUserProblems(userId)) {
+            final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(userId);
+            problemService.saveProblems(userId, solvedProblems);
+        }
         return ResponseEntity.ok(problemService.findByUserId(userId));
     }
 }

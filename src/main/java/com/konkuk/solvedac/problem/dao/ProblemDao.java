@@ -70,4 +70,9 @@ public class ProblemDao {
         final String sql = "truncate table USER_PROBLEM_MAP";
         jdbcTemplate.update(sql);
     }
+
+    public boolean isAlreadyMappedUserProblems(String userId) {
+        final String sql = "select exists(select * from USER_PROBLEM_MAP where user_id = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, userId);
+    }
 }
