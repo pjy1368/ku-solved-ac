@@ -18,7 +18,7 @@ public class ProblemService {
     }
 
     public ProblemInfoResponses findAll() {
-        final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAll().stream()
+        final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAllProblems().stream()
             .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getTitle()))
             .collect(Collectors.toList());
         return new ProblemInfoResponses(problemInfoResponses);

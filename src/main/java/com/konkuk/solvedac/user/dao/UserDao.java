@@ -1,14 +1,9 @@
 package com.konkuk.solvedac.user.dao;
 
-import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.user.domain.User;
 import java.util.List;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository

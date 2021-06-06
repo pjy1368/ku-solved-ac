@@ -38,7 +38,7 @@ public class ProblemDao {
         });
     }
 
-    public List<Problem> findAll() {
+    public List<Problem> findAllProblems() {
         final String sql = "select * from PROBLEM";
         return jdbcTemplate.query(sql, rowMapper);
     }

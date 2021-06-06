@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.jdbc.Sql;
 
 @JdbcTest
-@Transactional
+@Sql("classpath:schema.sql")
 class UserDaoTest {
 
     @Autowired
@@ -37,11 +37,7 @@ class UserDaoTest {
     @DisplayName("그룹 아이디로 유저 리스트를 조회한다.")
     void findByGroupId() {
         final Long groupId = 194L;
-
-        assertThat(userDao.findByGroupId(groupId))
-            .usingRecursiveComparison()
-            .ignoringFields("id")
-            .isEqualTo(users);
+        assertThat(userDao.findByGroupId(groupId)).isEqualTo(users);
     }
 
     @Test
