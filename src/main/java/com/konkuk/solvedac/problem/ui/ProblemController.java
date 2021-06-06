@@ -3,10 +3,12 @@ package com.konkuk.solvedac.problem.ui;
 import com.konkuk.solvedac.api.application.ProblemsProvider;
 import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,13 +22,13 @@ public class ProblemController {
         this.problemService = problemService;
     }
 
-    @GetMapping("/problems")
+    @GetMapping(value = "/problems", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProblemInfoResponses> showAllProblems() {
         return ResponseEntity.ok(problemService.findAllProblems());
     }
 
-    @PostMapping("/problems")
-    public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestBody String userId) {
+    @GetMapping(value = "/problems", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblems(@RequestParam String userId) {
         if (!problemService.isAlreadyMappedUserProblems(userId)) {
             final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(userId);
             problemService.saveProblems(userId, solvedProblems);
