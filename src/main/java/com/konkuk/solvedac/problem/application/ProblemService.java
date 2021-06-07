@@ -33,6 +33,13 @@ public class ProblemService {
         problemDao.batchInsert(problems);
     }
 
+    public void saveProblemsOnTemp(ProblemInfoResponses problemInfoResponses) {
+        final List<Problem> problems = problemInfoResponses.getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toList());
+        problemDao.batchInsertTemp(problems);
+    }
+
     public void saveProblems(String userId, ProblemInfoResponses problemInfoResponses) {
         saveProblems(userId, null, problemInfoResponses);
     }
@@ -45,6 +52,16 @@ public class ProblemService {
             .map(ProblemInfoResponse::toEntity)
             .collect(Collectors.toList());
         problemDao.batchInsert(userId, groupId, problems);
+    }
+
+    public void saveProblemsOnTemp(String userId, Long groupId, ProblemInfoResponses problemInfoResponses) {
+        if (problemInfoResponses.getProblemInfoResponses().isEmpty()) {
+            throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
+        }
+        final List<Problem> problems = problemInfoResponses.getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toList());
+        problemDao.batchInsertTemp(userId, groupId, problems);
     }
 
     public ProblemInfoResponses findByUserId(String userId) {

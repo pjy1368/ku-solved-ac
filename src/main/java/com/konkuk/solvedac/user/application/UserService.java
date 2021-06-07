@@ -41,6 +41,17 @@ public class UserService {
         userDao.batchInsert(users);
     }
 
+    public void saveUsersOnTemp(Long groupId, UserInfoResponses userInfosInGroup) {
+        if (userInfosInGroup.getUserInfoResponses().isEmpty()) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
+        final List<User> users = userInfosInGroup.getUserInfoResponses().stream()
+            .map(userInfoResponse -> userInfoResponse.toEntity(groupId))
+            .collect(Collectors.toList());
+
+        userDao.batchInsertTemp(users);
+    }
+
     public void saveSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getId)
@@ -50,6 +61,19 @@ public class UserService {
             ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
             if (!solvedProblems.getProblemInfoResponses().isEmpty()) {
                 problemService.saveProblems(nickname, groupId, solvedProblems);
+            }
+        }
+    }
+
+    public void saveSolvedProblemsOfUsersOnTemp(Long groupId, UserInfoResponses userInfoResponses) {
+        final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
+            .map(UserInfoResponse::getId)
+            .collect(Collectors.toList());
+
+        for (final String nickname : nicknames) {
+            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
+            if (!solvedProblems.getProblemInfoResponses().isEmpty()) {
+                problemService.saveProblemsOnTemp(nickname, groupId, solvedProblems);
             }
         }
     }

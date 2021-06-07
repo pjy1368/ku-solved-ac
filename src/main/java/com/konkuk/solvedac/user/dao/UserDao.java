@@ -25,6 +25,15 @@ public class UserDao {
 
     public void batchInsert(List<User> users) {
         final String sql = "insert into USER (id, group_id) values(?, ?)";
+        insert(users, sql);
+    }
+
+    public void batchInsertTemp(List<User> users) {
+        final String sql = "insert into TEMP_USER (id, group_id) values(?, ?)";
+        insert(users, sql);
+    }
+
+    private void insert(List<User> users, String sql) {
         jdbcTemplate.batchUpdate(sql, users, users.size(), (ps, argument) -> {
             ps.setString(1, argument.getId());
             if (Objects.isNull(argument.getGroupId())) {

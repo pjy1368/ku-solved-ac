@@ -26,7 +26,17 @@ public class ProblemDao {
     }
 
     public void batchInsert(List<Problem> problems) {
-        final String sql = "insert into PROBLEM (id, level, title, solved_count) values(?, ?, ?, ?)";
+        final String sql = "insert into PROBLEM (id, level, title, solved_count) values (?, ?, ?, ?)";
+        jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
+            ps.setLong(1, argument.getId());
+            ps.setInt(2, argument.getLevel());
+            ps.setString(3, argument.getTitle());
+            ps.setLong(4, argument.getSolvedCount());
+        });
+    }
+
+    public void batchInsertTemp(List<Problem> problems) {
+        final String sql = "insert into TEMP_PROBLEM (id, level, title, solved_count) values (?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setLong(1, argument.getId());
             ps.setInt(2, argument.getLevel());
@@ -37,6 +47,15 @@ public class ProblemDao {
 
     public void batchInsert(String userId, Long groupId, List<Problem> problems) {
         final String sql = "insert into USER_PROBLEM_MAP (user_id, group_id, problem_id) values(?, ?, ?)";
+        insert(userId, groupId, problems, sql);
+    }
+
+    public void batchInsertTemp(String userId, Long groupId, List<Problem> problems) {
+        final String sql = "insert into TEMP_USER_PROBLEM_MAP (user_id, group_id, problem_id) values(?, ?, ?)";
+        insert(userId, groupId, problems, sql);
+    }
+
+    private void insert(String userId, Long groupId, List<Problem> problems, String sql) {
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setString(1, userId);
             if (Objects.isNull(groupId)) {
