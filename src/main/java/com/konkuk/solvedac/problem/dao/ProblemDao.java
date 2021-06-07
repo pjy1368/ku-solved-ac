@@ -17,7 +17,8 @@ public class ProblemDao {
         new Problem(
             rs.getLong("id"),
             rs.getInt("level"),
-            rs.getString("title")
+            rs.getString("title"),
+            rs.getLong("solved_count")
         );
 
     public ProblemDao(JdbcTemplate jdbcTemplate) {
@@ -25,11 +26,12 @@ public class ProblemDao {
     }
 
     public void batchInsert(List<Problem> problems) {
-        final String sql = "insert into PROBLEM (id, level, title) values(?, ?, ?)";
+        final String sql = "insert into PROBLEM (id, level, title, solved_count) values(?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setLong(1, argument.getId());
             ps.setInt(2, argument.getLevel());
             ps.setString(3, argument.getTitle());
+            ps.setLong(4, argument.getSolvedCount());
         });
     }
 
@@ -71,7 +73,7 @@ public class ProblemDao {
 
     public List<Problem> findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
         final String sql = "select * from PROBLEM where level = ? and id not in "
-            + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
+            + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?) order by solved_count desc";
         return jdbcTemplate.query(sql, rowMapper, level, groupId);
     }
 

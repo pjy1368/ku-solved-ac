@@ -4,9 +4,10 @@ drop table if exists USER_PROBLEM_MAP;
 
 create table if not exists PROBLEM
 (
-    id    bigint       not null unique,
-    level int          not null,
-    title varchar(255) not null
+    id           bigint       not null unique,
+    level        int          not null,
+    title        varchar(255) not null,
+    solved_count int          not null
 );
 
 create table if not exists USER

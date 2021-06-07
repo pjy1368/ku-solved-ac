@@ -21,14 +21,15 @@ public class ProblemInfoResponse {
     private Short solvable;
     @NonNull
     private String title;
+    @NonNull
     private Long solvedCount;
     private Double averageTry;
 
     public static ProblemInfoResponse of(Problem problem) {
-        return new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle());
+        return new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle(), problem.getSolvedCount());
     }
 
     public Problem toEntity() {
-        return new Problem(id, level, title);
+        return new Problem(id, level, title, solvedCount);
     }
 }

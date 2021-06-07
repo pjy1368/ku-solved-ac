@@ -16,4 +16,5 @@ public class Problem {
     private Long id;
     private Integer level;
     private String title;
+    private Long solvedCount;
 }

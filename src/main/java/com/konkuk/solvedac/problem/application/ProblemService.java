@@ -20,7 +20,8 @@ public class ProblemService {
 
     public ProblemInfoResponses findAllProblems() {
         final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAllProblems().stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
+                problem.getTitle(), problem.getSolvedCount()))
             .collect(Collectors.toList());
         return new ProblemInfoResponses(problemInfoResponses);
     }
@@ -48,25 +49,29 @@ public class ProblemService {
 
     public ProblemInfoResponses findByUserId(String userId) {
         return new ProblemInfoResponses(problemDao.findByUserId(userId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
+                problem.getTitle(), problem.getSolvedCount()))
             .collect(Collectors.toList()));
     }
 
     public ProblemInfoResponses findSolvedProblemByGroupId(Long groupId) {
         return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupId(groupId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
+                problem.getTitle(), problem.getSolvedCount()))
             .collect(Collectors.toList()));
     }
 
     public ProblemInfoResponses findUnsolvedProblemByGroupId(Long groupId) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupId(groupId).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
+                problem.getTitle(), problem.getSolvedCount()))
             .collect(Collectors.toList()));
     }
 
     public ProblemInfoResponses findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupIdAndLevel(groupId, level).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle()))
+            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
+                problem.getTitle(), problem.getSolvedCount()))
             .collect(Collectors.toList()));
     }
 
