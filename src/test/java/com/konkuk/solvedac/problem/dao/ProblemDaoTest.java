@@ -4,7 +4,10 @@ import static com.konkuk.solvedac.problem.ProblemFixture.PROBLEMS;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_1;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_2;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_3;
-import static com.konkuk.solvedac.user.UserFixture.*;
+import static com.konkuk.solvedac.user.UserFixture.GROUP_ID;
+import static com.konkuk.solvedac.user.UserFixture.PLAYER_1;
+import static com.konkuk.solvedac.user.UserFixture.PLAYER_2;
+import static com.konkuk.solvedac.user.UserFixture.PLAYER_3;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 

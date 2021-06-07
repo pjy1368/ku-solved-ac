@@ -1,12 +1,10 @@
 package com.konkuk.solvedac.user.dao;
 
-import static com.konkuk.solvedac.user.UserFixture.*;
+import static com.konkuk.solvedac.user.UserFixture.GROUP_ID;
+import static com.konkuk.solvedac.user.UserFixture.KON_KUK_USERS;
+import static com.konkuk.solvedac.user.UserFixture.USERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.konkuk.solvedac.user.domain.User;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

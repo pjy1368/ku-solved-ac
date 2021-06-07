@@ -92,7 +92,8 @@ public class UserService {
 
     public ProblemInfoResponses showUnsolvedProblemsOfUsersByTier(Long groupId, String tier) {
         final int level = LevelMapper.MAP.get(tier);
-        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupIdAndLevel(groupId, level).getProblemInfoResponses().stream()
+        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupIdAndLevel(groupId, level)
+            .getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }

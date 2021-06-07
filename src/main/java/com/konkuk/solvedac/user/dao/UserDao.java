@@ -12,16 +12,15 @@ import org.springframework.stereotype.Repository;
 public class UserDao {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public UserDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     private final RowMapper<User> rowMapper = (rs, rowNum) ->
         new User(
             rs.getString("id"),
             rs.getLong("group_id")
         );
+
+    public UserDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void batchInsert(List<User> users) {
         final String sql = "insert into USER (id, group_id) values(?, ?)";

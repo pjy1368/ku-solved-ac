@@ -11,10 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements ApplicationRunner {
-    private ProblemsProvider problemsProvider;
-    private UserInfoProvider userInfoProvider;
-    private ProblemService problemService;
-    private UserService userService;
+
+    private final ProblemsProvider problemsProvider;
+    private final UserInfoProvider userInfoProvider;
+    private final ProblemService problemService;
+    private final UserService userService;
 
     public DataLoader(ProblemsProvider problemsProvider, UserInfoProvider userInfoProvider,
         ProblemService problemService, UserService userService) {

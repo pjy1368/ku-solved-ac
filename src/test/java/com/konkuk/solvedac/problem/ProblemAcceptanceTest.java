@@ -1,6 +1,6 @@
 package com.konkuk.solvedac.problem;
 
-import static com.konkuk.solvedac.user.UserFixture.*;
+import static com.konkuk.solvedac.user.UserFixture.PLAYER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.konkuk.solvedac.AcceptanceTest;
