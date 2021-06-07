@@ -1,6 +1,7 @@
 package com.konkuk.solvedac.user.application;
 
 import com.konkuk.solvedac.api.application.ProblemsProvider;
+import com.konkuk.solvedac.exception.NotFoundException;
 import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
@@ -29,6 +30,9 @@ public class UserService {
     }
 
     public void saveUsers(Long groupId, UserInfoResponses userInfosInGroup) {
+        if (userInfosInGroup.getUserInfoResponses().isEmpty()) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
         final List<User> users = userInfosInGroup.getUserInfoResponses().stream()
             .map(userInfoResponse -> userInfoResponse.toEntity(groupId))
             .collect(Collectors.toList());
@@ -43,7 +47,9 @@ public class UserService {
 
         for (final String nickname : nicknames) {
             ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
-            problemService.saveProblems(nickname, groupId, solvedProblems);
+            if (!solvedProblems.getProblemInfoResponses().isEmpty()) {
+                problemService.saveProblems(nickname, groupId, solvedProblems);
+            }
         }
     }
 

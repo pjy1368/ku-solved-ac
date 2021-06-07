@@ -3,6 +3,7 @@ package com.konkuk.solvedac.problem.dao;
 import static com.konkuk.solvedac.problem.ProblemFixture.PROBLEMS;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_1;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_2;
+import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_3;
 import static com.konkuk.solvedac.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -36,6 +37,7 @@ class ProblemDaoTest {
 
         problemDao.batchInsert(PLAYER_1, GROUP_ID, SOLVED_PROBLEMS_BY_USER_1);
         problemDao.batchInsert(PLAYER_2, GROUP_ID, SOLVED_PROBLEMS_BY_USER_2);
+        problemDao.batchInsert(PLAYER_3, null, SOLVED_PROBLEMS_BY_USER_3);
     }
 
     @Test
@@ -49,6 +51,7 @@ class ProblemDaoTest {
     void findByUserId() {
         assertThat(problemDao.findByUserId(PLAYER_1)).isEqualTo(SOLVED_PROBLEMS_BY_USER_1);
         assertThat(problemDao.findByUserId(PLAYER_2)).isEqualTo(SOLVED_PROBLEMS_BY_USER_2);
+        assertThat(problemDao.findByUserId(PLAYER_3)).isEqualTo(SOLVED_PROBLEMS_BY_USER_2);
     }
 
     @Test

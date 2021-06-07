@@ -30,4 +30,11 @@ public class ProblemFixture {
         new Problem(9L, "nine"),
         new Problem(10L, "ten")
     );
+
+    public static final List<Problem> SOLVED_PROBLEMS_BY_USER_3 = Arrays.asList(
+        new Problem(7L, "seven"),
+        new Problem(8L, "eight"),
+        new Problem(9L, "nine"),
+        new Problem(10L, "ten")
+    );
 }

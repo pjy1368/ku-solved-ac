@@ -1,7 +1,9 @@
 package com.konkuk.solvedac.user.dao;
 
 import com.konkuk.solvedac.user.domain.User;
+import java.sql.Types;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,7 +27,11 @@ public class UserDao {
         final String sql = "insert into USER (id, group_id) values(?, ?)";
         jdbcTemplate.batchUpdate(sql, users, users.size(), (ps, argument) -> {
             ps.setString(1, argument.getId());
-            ps.setLong(2, argument.getGroupId());
+            if (Objects.isNull(argument.getGroupId())) {
+                ps.setNull(2, Types.BIGINT);
+            } else {
+                ps.setLong(2, argument.getGroupId());
+            }
         });
     }
 

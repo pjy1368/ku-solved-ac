@@ -1,6 +1,7 @@
 package com.konkuk.solvedac.common;
 
-import javax.validation.ConstraintViolationException;
+import com.konkuk.solvedac.exception.InvalidInputException;
+import com.konkuk.solvedac.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,13 +16,18 @@ public class GlobalExceptionController {
         return ResponseEntity.badRequest().body(new ErrorResponse(bindingResultMessage(exception)));
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handle(ConstraintViolationException exception) {
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<ErrorResponse> invalidInputExceptionHandler(InvalidInputException exception) {
         return ResponseEntity.badRequest().body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> serverExceptionHandler(RuntimeException exception) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> notFoundExceptionHandler(NotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> serverExceptionHandler(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(exception.getMessage()));
     }
 

@@ -1,7 +1,7 @@
 package com.konkuk.solvedac.user.application;
 
 import static com.konkuk.solvedac.user.UserFixture.GROUP_ID;
-import static com.konkuk.solvedac.user.UserFixture.USERS;
+import static com.konkuk.solvedac.user.UserFixture.KON_KUK_USERS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -31,10 +31,10 @@ public class UserServiceTest {
     @Test
     @DisplayName("특정 그룹에 속한 유저 리스트를 조회한다.")
     void findByGroupId() {
-        given(userDao.findByGroupId(GROUP_ID)).willReturn(USERS);
+        given(userDao.findByGroupId(GROUP_ID)).willReturn(KON_KUK_USERS);
         final List<User> actual = dtoToEntity(GROUP_ID, userService.findByGroupId(GROUP_ID));
 
-        assertThat(actual).isEqualTo(USERS);
+        assertThat(actual).isEqualTo(KON_KUK_USERS);
         verify(userDao, times(1)).findByGroupId(GROUP_ID);
     }
 

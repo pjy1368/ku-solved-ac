@@ -1,5 +1,6 @@
 package com.konkuk.solvedac.problem.application;
 
+import com.konkuk.solvedac.exception.NotFoundException;
 import com.konkuk.solvedac.problem.dao.ProblemDao;
 import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
@@ -36,6 +37,9 @@ public class ProblemService {
     }
 
     public void saveProblems(String userId, Long groupId, ProblemInfoResponses problemInfoResponses) {
+        if (problemInfoResponses.getProblemInfoResponses().isEmpty()) {
+            throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
+        }
         final List<Problem> problems = problemInfoResponses.getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity)
             .collect(Collectors.toList());

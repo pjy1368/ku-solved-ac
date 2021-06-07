@@ -3,6 +3,10 @@ package com.konkuk.solvedac.user.dao;
 import static com.konkuk.solvedac.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.konkuk.solvedac.user.domain.User;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,13 +33,13 @@ class UserDaoTest {
     @Test
     @DisplayName("그룹 아이디로 유저 리스트를 조회한다.")
     void findByGroupId() {
-        assertThat(userDao.findByGroupId(GROUP_ID)).isEqualTo(USERS);
+        assertThat(userDao.findByGroupId(GROUP_ID)).isEqualTo(KON_KUK_USERS);
     }
 
     @Test
     @DisplayName("모든 유저 리스트를 조회한다.")
     void findAll() {
-        assertThat(userDao.findAll()).hasSize(2);
+        assertThat(userDao.findAll()).hasSize(4);
     }
 
     @Test

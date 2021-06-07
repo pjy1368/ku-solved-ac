@@ -1,7 +1,10 @@
 package com.konkuk.solvedac.problem.dao;
 
 import com.konkuk.solvedac.problem.domain.Problem;
+import java.sql.Types;
 import java.util.List;
+import java.util.Objects;
+import org.springframework.asm.Type;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,7 +36,11 @@ public class ProblemDao {
         final String sql = "insert into USER_PROBLEM_MAP (user_id, group_id, problem_id) values(?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setString(1, userId);
-            ps.setLong(2, groupId);
+            if (Objects.isNull(groupId)) {
+                ps.setNull(2, Types.BIGINT);
+            } else {
+                ps.setLong(2, groupId);
+            }
             ps.setLong(3, argument.getId());
         });
     }
