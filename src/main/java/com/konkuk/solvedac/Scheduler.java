@@ -44,32 +44,17 @@ public class Scheduler {
         userService.saveUsersOnTemp(194L, userInfoProvider.getUserInfosInGroup(194L));
         userService.saveSolvedProblemsOfUsersOnTemp(194L, userService.findByGroupId(194L));
 
-        sql.add("drop table if exists PROBLEM");
+        sql.add("alter table PROBLEM rename to TEMP2_PROBLEM");
         sql.add("alter table TEMP_PROBLEM rename to PROBLEM");
-        sql.add("drop table if exists USER");
-        sql.add("alter table TEMP_USER rename to USER;");
-        sql.add("drop table if exists USER_PROBLEM_MAP");
-        sql.add("alter table TEMP_USER_PROBLEM_MAP rename to USER_PROBLEM_MAP;");
-        sql.add("create table if not exists TEMP_PROBLEM\n"
-            + "(\n"
-            + "    id           bigint       not null unique,\n"
-            + "    level        int          not null,\n"
-            + "    title        varchar(255) not null,\n"
-            + "    solved_count int          not null\n"
-            + ");\n"
-            + "\n"
-            + "create table if not exists TEMP_USER\n"
-            + "(\n"
-            + "    id       varchar(255) not null unique,\n"
-            + "    group_id bigint\n"
-            + ");\n"
-            + "\n"
-            + "create table if not exists TEMP_USER_PROBLEM_MAP\n"
-            + "(\n"
-            + "    user_id    varchar(255) not null,\n"
-            + "    group_id   bigint,\n"
-            + "    problem_id bigint       not null\n"
-            + ");");
+        sql.add("alter table TEMP2_PROBLEM rename to TEMP_PROBLEM");
+
+        sql.add("alter table USER rename to TEMP2_USER");
+        sql.add("alter table TEMP_USER rename to USER");
+        sql.add("alter table TEMP2_USER rename to TEMP_USER");
+
+        sql.add("alter table USER_PROBLEM_MAP rename to TEMP2_USER_PROBLEM_MAP");
+        sql.add("alter table TEMP_USER_PROBLEM_MAP rename to USER_PROBLEM_MAP");
+        sql.add("alter table TEMP2_USER_PROBLEM_MAP rename to TEMP_USER_PROBLEM_MAP");
         sql.forEach(jdbcTemplate::update);
         long end = System.nanoTime();
         System.out.printf("스케줄링 작업 완료! 소요 시간: %d\n",
