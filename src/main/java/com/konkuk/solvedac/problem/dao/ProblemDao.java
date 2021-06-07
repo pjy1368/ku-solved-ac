@@ -4,7 +4,6 @@ import com.konkuk.solvedac.problem.domain.Problem;
 import java.sql.Types;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.asm.Type;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,6 +16,7 @@ public class ProblemDao {
     private final RowMapper<Problem> rowMapper = (rs, rowNum) ->
         new Problem(
             rs.getLong("id"),
+            rs.getInt("level"),
             rs.getString("title")
         );
 
@@ -25,10 +25,11 @@ public class ProblemDao {
     }
 
     public void batchInsert(List<Problem> problems) {
-        final String sql = "insert into PROBLEM (id, title) values(?, ?)";
+        final String sql = "insert into PROBLEM (id, level, title) values(?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setLong(1, argument.getId());
-            ps.setString(2, argument.getTitle());
+            ps.setInt(2, argument.getLevel());
+            ps.setString(3, argument.getTitle());
         });
     }
 
@@ -66,6 +67,12 @@ public class ProblemDao {
         final String sql = "select * from PROBLEM where id not in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
         return jdbcTemplate.query(sql, rowMapper, groupId);
+    }
+
+    public List<Problem> findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+        final String sql = "select * from PROBLEM where level = ? and id not in "
+            + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
+        return jdbcTemplate.query(sql, rowMapper, level, groupId);
     }
 
     public void deleteAllProblems() {

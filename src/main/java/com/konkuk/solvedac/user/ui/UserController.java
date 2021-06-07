@@ -1,14 +1,13 @@
 package com.konkuk.solvedac.user.ui;
 
-import com.konkuk.solvedac.api.application.ProblemsProvider;
 import com.konkuk.solvedac.api.application.UserInfoProvider;
-import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
 import com.konkuk.solvedac.user.application.UserService;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +41,11 @@ public class UserController {
     @PostMapping("/users/unsolved-problems")
     public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@RequestBody Long groupId) {
         return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(groupId));
+    }
+
+    @PostMapping("/users/unsolved-problems/{tier}")
+    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsersByTier(
+        @RequestBody Long groupId, @PathVariable String tier) {
+        return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsersByTier(groupId, tier));
     }
 }

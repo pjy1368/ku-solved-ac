@@ -1,7 +1,8 @@
 package com.konkuk.solvedac.api.application;
 
-import static com.konkuk.solvedac.api.Constants.ALL_PROBLEMS_URL;
+import static com.konkuk.solvedac.api.Constants.ALL_PROBLEMS_QUERY;
 import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
+import static com.konkuk.solvedac.api.Constants.PROBLEMS_URL;
 import static com.konkuk.solvedac.api.Constants.SERVER_URL;
 import static com.konkuk.solvedac.api.Constants.SOLVED_PROBLEMS_URL;
 
@@ -31,7 +32,7 @@ public class ProblemsProvider {
     }
 
     public ProblemInfoResponses getAllProblems() {
-        final String url = SERVER_URL + ALL_PROBLEMS_URL;
+        final String url = SERVER_URL + PROBLEMS_URL + ALL_PROBLEMS_QUERY;
         return requestProblems(url);
     }
 

@@ -14,5 +14,6 @@ public class Problem {
 
     @JsonProperty("problem_id")
     private Long id;
+    private Integer level;
     private String title;
 }

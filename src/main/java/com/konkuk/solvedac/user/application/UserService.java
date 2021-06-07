@@ -7,6 +7,7 @@ import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
 import com.konkuk.solvedac.user.dao.UserDao;
+import com.konkuk.solvedac.user.domain.LevelMapper;
 import com.konkuk.solvedac.user.domain.User;
 import com.konkuk.solvedac.user.dto.UserInfoResponse;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
@@ -61,6 +62,13 @@ public class UserService {
 
     public ProblemInfoResponses showUnsolvedProblemsOfUsers(Long groupId) {
         final Set<Problem> problems = problemService.findUnsolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
+        return ProblemInfoResponses.of(problems);
+    }
+
+    public ProblemInfoResponses showUnsolvedProblemsOfUsersByTier(Long groupId, String tier) {
+        final int level = LevelMapper.map.get(tier);
+        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupIdAndLevel(groupId, level).getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
