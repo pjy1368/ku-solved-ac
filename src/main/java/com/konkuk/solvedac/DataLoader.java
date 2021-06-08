@@ -7,9 +7,11 @@ import com.konkuk.solvedac.user.application.UserService;
 import java.util.concurrent.TimeUnit;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile({"local", "test"})
 public class DataLoader implements ApplicationRunner {
 
     private final ProblemsProvider problemsProvider;

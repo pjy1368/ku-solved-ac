@@ -27,6 +27,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	testImplementation 'io.rest-assured:rest-assured:4.4.0'
+	implementation 'mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2'
 
 	// lombok
