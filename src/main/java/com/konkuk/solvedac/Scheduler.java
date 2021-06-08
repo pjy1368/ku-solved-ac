@@ -34,7 +34,7 @@ public class Scheduler {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "0 0 0/2 * * *")
     public void dbUpdate() {
         System.out.println("스케줄링 시작!");
         long start = System.nanoTime();

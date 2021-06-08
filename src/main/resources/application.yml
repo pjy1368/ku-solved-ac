@@ -55,7 +55,7 @@ spring:
   sql:
     init:
       schema-locations: classpath*:schema.sql
-      enabled: true
+      enabled: false
 solvedAc:
   group:
     id: 194

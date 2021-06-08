@@ -1,4 +1,4 @@
-package com.konkuk.solvedac;
+package com.konkuk.solvedac.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
