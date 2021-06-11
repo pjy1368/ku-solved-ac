@@ -49,7 +49,7 @@ public class GroupAcceptanceTest {
     private ExtractableResponse<Response> 특정_그룹_맞은_문제_조회_요청(Long groupId) {
         return RestAssured
             .given().log().all()
-            .when().get("/group/" + groupId + "/solved-problems")
+            .when().get("/groups/" + groupId + "/solved-problems")
             .then().log().all()
             .extract();
     }
@@ -57,7 +57,7 @@ public class GroupAcceptanceTest {
     private ExtractableResponse<Response> 특정_그룹_틀린_문제_조회_요청(Long groupId) {
         return RestAssured
             .given().log().all()
-            .when().get("/group/" + groupId + "/unsolved-problems")
+            .when().get("/groups/" + groupId + "/unsolved-problems")
             .then().log().all()
             .extract();
     }
@@ -65,7 +65,7 @@ public class GroupAcceptanceTest {
     private ExtractableResponse<Response> 특정_그룹_틀린_문제_티어_별_조회_요청(Long groupId, String tier) {
         return RestAssured
             .given().log().all()
-            .when().get("/group/" + groupId + "/unsolved-problems/" + tier)
+            .when().get("/groups/" + groupId + "/unsolved-problems/" + tier)
             .then().log().all()
             .extract();
     }
