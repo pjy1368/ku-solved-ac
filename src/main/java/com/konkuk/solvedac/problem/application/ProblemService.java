@@ -64,7 +64,7 @@ public class ProblemService {
         problemDao.batchInsertTemp(userId, groupId, problems);
     }
 
-    public ProblemInfoResponses findByUserId(String userId) {
+    public ProblemInfoResponses findSolvedProblemByUserId(String userId) {
         return new ProblemInfoResponses(problemDao.findByUserId(userId).stream()
             .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
                 problem.getTitle(), problem.getSolvedCount()))

@@ -50,7 +50,7 @@ class ProblemServiceTest {
     @DisplayName("특정 유저가 푼 문제를 조회한다.")
     void findByUserId() {
         given(problemDao.findByUserId(PLAYER_1)).willReturn(SOLVED_PROBLEMS_BY_USER_1);
-        final List<Problem> actual = dtoToEntity(problemService.findByUserId(PLAYER_1));
+        final List<Problem> actual = dtoToEntity(problemService.findSolvedProblemByUserId(PLAYER_1));
 
         assertThat(actual).isEqualTo(SOLVED_PROBLEMS_BY_USER_1);
         verify(problemDao, times(1)).findByUserId(PLAYER_1);

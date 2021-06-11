@@ -31,6 +31,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("특정 그룹에 속한 유저 리스트를 조회한다.")
     void findByGroupId() {
+        given(userDao.existsByGroupId(GROUP_ID)).willReturn(true);
         given(userDao.findByGroupId(GROUP_ID)).willReturn(KON_KUK_USERS);
         final List<User> actual = dtoToEntity(GROUP_ID, userService.findByGroupId(GROUP_ID));
 

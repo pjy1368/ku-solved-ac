@@ -58,6 +58,11 @@ public class UserDao {
         jdbcTemplate.update(sql);
     }
 
+    public boolean existsByUserId(String userId) {
+        final String sql = "select exists(select * from USER where id = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, userId);
+    }
+
     public boolean existsByGroupId(Long groupId) {
         final String sql = "select exists(select * from USER where group_id = ?)";
         return jdbcTemplate.queryForObject(sql, Boolean.class, groupId);

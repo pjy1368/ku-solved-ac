@@ -58,7 +58,7 @@ public class UserService {
             .collect(Collectors.toList());
 
         for (final String nickname : nicknames) {
-            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
+            final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
             if (!solvedProblems.getProblemInfoResponses().isEmpty()) {
                 problemService.saveProblems(nickname, groupId, solvedProblems);
             }
@@ -79,18 +79,30 @@ public class UserService {
     }
 
     public ProblemInfoResponses showSolvedProblemsOfUsers(Long groupId) {
+        if (!userDao.existsByGroupId(groupId)) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
         final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
     public ProblemInfoResponses showUnsolvedProblemsOfUsers(Long groupId) {
+        if (!userDao.existsByGroupId(groupId)) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
         final Set<Problem> problems = problemService.findUnsolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
             .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
     public ProblemInfoResponses showUnsolvedProblemsOfUsersByTier(Long groupId, String tier) {
+        if (!userDao.existsByGroupId(groupId)) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
+        if (!LevelMapper.MAP.containsKey(tier)) {
+            throw new NotFoundException("해당하는 티어가 존재하지 않습니다.");
+        }
         final int level = LevelMapper.MAP.get(tier);
         final Set<Problem> problems = problemService.findUnsolvedProblemByGroupIdAndLevel(groupId, level)
             .getProblemInfoResponses().stream()
@@ -98,7 +110,17 @@ public class UserService {
         return ProblemInfoResponses.of(problems);
     }
 
+    public ProblemInfoResponses findSolvedProblemByUserId(String userId) {
+        if (!userDao.existsByUserId(userId)) {
+            throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
+        }
+        return problemService.findSolvedProblemByUserId(userId);
+    }
+
     public UserInfoResponses findByGroupId(Long groupId) {
+        if (!userDao.existsByGroupId(groupId)) {
+            throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
+        }
         return new UserInfoResponses(userDao.findByGroupId(groupId).stream()
             .map(user -> new UserInfoResponse(user.getId()))
             .collect(Collectors.toList()));
