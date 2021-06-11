@@ -15,7 +15,9 @@ import com.konkuk.solvedac.problem.dao.ProblemDao;
 import com.konkuk.solvedac.problem.domain.Problem;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
+import com.konkuk.solvedac.user.domain.LevelMapper;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -44,6 +48,23 @@ class ProblemServiceTest {
 
         assertThat(actual).isEqualTo(PROBLEMS);
         verify(problemDao, times(1)).findAllProblems();
+    }
+
+    @ParameterizedTest
+    @DisplayName("티어별 문제를 조회한다.")
+    @ValueSource(strings = {"unrated", "b5", "b4", "b3", "b2", "b1", "s5", "s4", "s3", "s2", "s1",
+        "g5", "g4", "g3", "g2", "g1", "p5", "p4", "p3", "p2", "p1", "d5", "d4", "d3", "d2", "d1",
+        "r5", "r4", "r3", "r2", "r1"})
+    void findProblemByTier(String tier) {
+        final int level = LevelMapper.getLevel(tier);
+        final List<Problem> expected = Collections.singletonList(
+            new Problem(1L, level, "test", 10L)
+        );
+        given(problemDao.findProblemByLevel(level)).willReturn(expected);
+
+        final List<Problem> actual = dtoToEntity(problemService.findProblemByTier(tier));
+        assertThat(actual).isEqualTo(expected);
+        verify(problemDao, times(1)).findProblemByLevel(level);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.konkuk.solvedac.problem.dao;
 
+import static com.konkuk.solvedac.problem.ProblemFixture.LEVEL_1;
 import static com.konkuk.solvedac.problem.ProblemFixture.PROBLEMS;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_1;
 import static com.konkuk.solvedac.problem.ProblemFixture.SOLVED_PROBLEMS_BY_USER_2;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import com.konkuk.solvedac.problem.domain.Problem;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +49,14 @@ class ProblemDaoTest {
     @DisplayName("모든 문제를 조회한다.")
     void findAllProblems() {
         assertThat(problemDao.findAllProblems()).isEqualTo(PROBLEMS);
+    }
+
+    @Test
+    @DisplayName("티어별 문제를 조회한다.")
+    void findProblemByLevel() {
+        assertThat(problemDao.findProblemByLevel(LEVEL_1)).isEqualTo(Collections.singletonList(
+            PROBLEMS.get(0)
+        ));
     }
 
     @Test

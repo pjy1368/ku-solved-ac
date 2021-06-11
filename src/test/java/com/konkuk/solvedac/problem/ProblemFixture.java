@@ -6,6 +6,8 @@ import java.util.List;
 
 public class ProblemFixture {
 
+    public static final int LEVEL_1 = 1;
+
     public static final List<Problem> PROBLEMS = Arrays.asList(
         new Problem(1L, 1, "one", 1L),
         new Problem(2L, 2, "two", 2L),
