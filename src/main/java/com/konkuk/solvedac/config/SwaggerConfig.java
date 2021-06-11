@@ -15,6 +15,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+            .host("ku-solved.kro.kr")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.konkuk.solvedac"))
             .paths(PathSelectors.ant("/**"))

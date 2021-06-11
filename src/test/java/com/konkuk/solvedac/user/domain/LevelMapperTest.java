@@ -15,7 +15,7 @@ class LevelMapperTest {
     @DisplayName("티어에 따른 레벨을 반환한다.")
     @ValueSource(strings = {"unrated", "b5", "b4", "b3", "b2", "b1", "s5", "s4", "s3", "s2", "s1",
         "g5", "g4", "g3", "g2", "g1", "p5", "p4", "p3", "p2", "p1", "d5", "d4", "d3", "d2", "d1",
-        "r5", "r4", "r3", "r2", "r1", "00"})
+        "r5", "r4", "r3", "r2", "r1"})
     void tierToLevel(String tier) {
         assertThatCode(() -> LevelMapper.getLevel(tier)).doesNotThrowAnyException();
     }
