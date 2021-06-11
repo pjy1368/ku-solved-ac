@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping("/users")
     public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam Long groupId) {
         return ResponseEntity.ok(userService.findByGroupId(groupId));
     }

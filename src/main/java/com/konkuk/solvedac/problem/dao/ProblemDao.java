@@ -78,6 +78,11 @@ public class ProblemDao {
         return jdbcTemplate.query(sql, rowMapper, userId);
     }
 
+    public List<Problem> findProblemByLevel(int level) {
+        final String sql = "select * from PROBLEM where level = ?";
+        return jdbcTemplate.query(sql, rowMapper, level);
+    }
+
     public List<Problem> findSolvedProblemByGroupId(Long groupId) {
         final String sql = "select * from PROBLEM where id in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";

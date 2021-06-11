@@ -71,7 +71,7 @@ public class UserService {
             .collect(Collectors.toList());
 
         for (final String nickname : nicknames) {
-            ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
+            final ProblemInfoResponses solvedProblems = problemsProvider.getSolvedProblems(nickname);
             if (!solvedProblems.getProblemInfoResponses().isEmpty()) {
                 problemService.saveProblemsOnTemp(nickname, groupId, solvedProblems);
             }
@@ -82,8 +82,10 @@ public class UserService {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
-        final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
-            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
+        final Set<Problem> problems = problemService.findSolvedProblemByGroupId(groupId)
+            .getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
@@ -91,8 +93,10 @@ public class UserService {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
-        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupId(groupId).getProblemInfoResponses().stream()
-            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
+        final Set<Problem> problems = problemService.findUnsolvedProblemByGroupId(groupId)
+            .getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
@@ -103,7 +107,8 @@ public class UserService {
         final int level = LevelMapper.getLevel(tier);
         final Set<Problem> problems = problemService.findUnsolvedProblemByGroupIdAndLevel(groupId, level)
             .getProblemInfoResponses().stream()
-            .map(ProblemInfoResponse::toEntity).collect(Collectors.toCollection(LinkedHashSet::new));
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return ProblemInfoResponses.of(problems);
     }
 
