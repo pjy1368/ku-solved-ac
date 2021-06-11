@@ -23,6 +23,7 @@
 ## 3. 실행 방법
 - MySQL이 설치되어 있어야 합니다.
 - MySQL 테이블 정보는 [이곳](https://github.com/pjy1368/ku-boj-solved-ac/tree/main/src/main/resources)에 있는 'schema.sql' 파일을 사용하시면 됩니다.
+- application.yml을 미리 본인의 환경에 맞춰서 정의해 주시되, 실행할 profile 이름을 remote로 설정해야 합니다.
 - 'cmd.sh' 스크립트 파일을 실행해 주시면 됩니다.
 ```
 chmod +x cmd.sh
