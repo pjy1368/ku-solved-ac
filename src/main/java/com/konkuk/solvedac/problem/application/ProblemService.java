@@ -91,6 +91,12 @@ public class ProblemService {
             .collect(Collectors.toList()));
     }
 
+    public ProblemInfoResponses findSolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+        return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupIdAndLevel(groupId, level).stream()
+            .map(ProblemInfoResponse::of)
+            .collect(Collectors.toList()));
+    }
+
     public ProblemInfoResponses findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupIdAndLevel(groupId, level).stream()
             .map(ProblemInfoResponse::of)

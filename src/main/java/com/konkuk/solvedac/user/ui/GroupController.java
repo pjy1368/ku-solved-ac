@@ -23,6 +23,12 @@ public class GroupController {
         return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(groupId));
     }
 
+    @GetMapping("/solved-problems/{tier}")
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsersByTier(
+        @PathVariable("id") Long groupId, @PathVariable String tier) {
+        return ResponseEntity.ok(userService.showSolvedProblemsOfUsersByTier(groupId, tier));
+    }
+
     @GetMapping("/unsolved-problems")
     public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@PathVariable("id") Long groupId) {
         return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(groupId));

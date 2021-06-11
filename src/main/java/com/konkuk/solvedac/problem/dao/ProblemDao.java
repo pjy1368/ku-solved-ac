@@ -2,6 +2,7 @@ package com.konkuk.solvedac.problem.dao;
 
 import com.konkuk.solvedac.problem.domain.Problem;
 import java.sql.Types;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -93,6 +94,12 @@ public class ProblemDao {
         final String sql = "select * from PROBLEM where id not in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
         return jdbcTemplate.query(sql, rowMapper, groupId);
+    }
+
+    public List<Problem> findSolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+        final String sql = "select * from PROBLEM where level = ? and id in "
+            + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?) order by solved_count desc";
+        return jdbcTemplate.query(sql, rowMapper, level, groupId);
     }
 
     public List<Problem> findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
