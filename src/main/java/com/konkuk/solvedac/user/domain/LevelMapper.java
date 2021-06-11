@@ -1,5 +1,6 @@
 package com.konkuk.solvedac.user.domain;
 
+import com.konkuk.solvedac.exception.NotFoundException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Map;
 
 public class LevelMapper {
 
-    public static final Map<String, Integer> MAP = new HashMap<>();
+    private static final Map<String, Integer> MAP = new HashMap<>();
     private static final List<String> tiers = Arrays.asList("b", "s", "g", "p", "d", "r");
 
     static {
@@ -18,5 +19,12 @@ public class LevelMapper {
                 MAP.put(tier + i, level++);
             }
         }
+    }
+
+    public static int getLevel(String tier) {
+        if (!MAP.containsKey(tier)) {
+            throw new NotFoundException("해당하는 티어가 존재하지 않습니다.");
+        }
+        return MAP.get(tier);
     }
 }
