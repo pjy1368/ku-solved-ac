@@ -26,6 +26,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+	// log
+	implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+
 	testImplementation 'io.rest-assured:rest-assured:4.4.0'
 	implementation 'mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2'
