@@ -79,6 +79,12 @@ public class ProblemService {
             .collect(Collectors.toList()));
     }
 
+    public ProblemInfoResponses findSolvedProblemByUserIdAndLevel(String userId, int level) {
+        return new ProblemInfoResponses(problemDao.findSolvedProblemByUserIdAndLevel(userId, level).stream()
+            .map(ProblemInfoResponse::of)
+            .collect(Collectors.toList()));
+    }
+
     public ProblemInfoResponses findSolvedProblemByGroupId(Long groupId) {
         return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupId(groupId).stream()
             .map(ProblemInfoResponse::of)

@@ -79,6 +79,12 @@ public class ProblemDao {
         return jdbcTemplate.query(sql, rowMapper, userId);
     }
 
+    public List<Problem> findSolvedProblemByUserIdAndLevel(String userId, int level) {
+        final String sql = "select * from PROBLEM where level = ? and id in "
+            + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where user_id = ?) order by solved_count desc";
+        return jdbcTemplate.query(sql, rowMapper, level, userId);
+    }
+
     public List<Problem> findProblemByLevel(int level) {
         final String sql = "select * from PROBLEM where level = ?";
         return jdbcTemplate.query(sql, rowMapper, level);

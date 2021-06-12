@@ -131,6 +131,18 @@ public class UserService {
         return problemService.findSolvedProblemByUserId(userId);
     }
 
+    public ProblemInfoResponses findSolvedProblemByUserIdAndTier(String userId, String tier) {
+        if (!userDao.existsByUserId(userId)) {
+            throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
+        }
+        final int level = LevelMapper.getLevel(tier);
+        final Set<Problem> problems = problemService.findSolvedProblemByUserIdAndLevel(userId, level)
+            .getProblemInfoResponses().stream()
+            .map(ProblemInfoResponse::toEntity)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+        return ProblemInfoResponses.of(problems);
+    }
+
     public UserInfoResponses findByGroupId(Long groupId) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");

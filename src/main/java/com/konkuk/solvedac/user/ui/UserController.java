@@ -33,4 +33,10 @@ public class UserController {
     @NotBlank(message = "유저의 아이디는 1글자 이상이어야 합니다.") String id) {
         return ResponseEntity.ok(userService.findSolvedProblemByUserId(id));
     }
+
+    @GetMapping("/{id}/problems/{tier}")
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsByTier(@PathVariable
+    @NotBlank(message = "유저의 아이디는 1글자 이상이어야 합니다.") String id, String tier) {
+        return ResponseEntity.ok(userService.findSolvedProblemByUserIdAndTier(id, tier));
+    }
 }
