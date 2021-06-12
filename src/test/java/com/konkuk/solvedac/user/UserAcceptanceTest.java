@@ -11,7 +11,6 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,6 +46,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
         문제_목록_실패됨(response);
     }
 
+    @ParameterizedTest
+    @DisplayName("특정 유저가 푼 문제를 티어 별로 조회한다.")
+    @ValueSource(strings = {"unrated", "b5", "b4", "b3", "b2", "b1", "s5", "s4", "s3", "s2", "s1",
+        "g5", "g4", "g3", "g2", "g1", "p5", "p4", "p3", "p2", "p1", "d5", "d4", "d3", "d2", "d1",
+        "r5", "r4", "r3", "r2", "r1"})
+    void showSolvedProblemsOfUsersByTier(String tier) {
+        ExtractableResponse<Response> response = 특정_유저_맞은_문제_티어_별_조회_요청(PLAYER_1, tier);
+        특정_유저_맞은_문제_티어_별_목록_응답됨(response);
+    }
+
     public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Long groupId) {
         return RestAssured
             .given().log().all()
@@ -61,6 +70,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when().get("/users/" + userId+ "/problems")
+            .then().log().all()
+            .extract();
+    }
+
+    private ExtractableResponse<Response> 특정_유저_맞은_문제_티어_별_조회_요청(String userId, String tier) {
+        return RestAssured
+            .given().log().all()
+            .when().get("/users/" + userId + "/problems/" + tier)
             .then().log().all()
             .extract();
     }
@@ -81,4 +98,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
+    private void 특정_유저_맞은_문제_티어_별_목록_응답됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }
