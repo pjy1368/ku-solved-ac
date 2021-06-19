@@ -5,11 +5,13 @@ import com.konkuk.solvedac.api.application.UserInfoProvider;
 import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.user.application.UserService;
 import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @Component
 @Profile({"local", "test"})
 public class DataLoader implements ApplicationRunner {
@@ -18,14 +20,6 @@ public class DataLoader implements ApplicationRunner {
     private final UserInfoProvider userInfoProvider;
     private final ProblemService problemService;
     private final UserService userService;
-
-    public DataLoader(ProblemsProvider problemsProvider, UserInfoProvider userInfoProvider,
-        ProblemService problemService, UserService userService) {
-        this.problemsProvider = problemsProvider;
-        this.userInfoProvider = userInfoProvider;
-        this.problemService = problemService;
-        this.userService = userService;
-    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

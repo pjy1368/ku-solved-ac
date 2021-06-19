@@ -4,10 +4,12 @@ import com.konkuk.solvedac.user.domain.User;
 import java.sql.Types;
 import java.util.List;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class UserDao {
 
@@ -17,10 +19,6 @@ public class UserDao {
             rs.getString("id"),
             rs.getLong("group_id")
         );
-
-    public UserDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public void batchInsert(List<User> users) {
         final String sql = "insert into USER (id, group_id) values(?, ?)";

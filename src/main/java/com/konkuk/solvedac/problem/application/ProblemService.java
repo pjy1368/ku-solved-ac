@@ -8,16 +8,14 @@ import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
 import com.konkuk.solvedac.user.domain.LevelMapper;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class ProblemService {
 
     private final ProblemDao problemDao;
-
-    public ProblemService(ProblemDao problemDao) {
-        this.problemDao = problemDao;
-    }
 
     public ProblemInfoResponses findAllProblems() {
         final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAllProblems().stream()

@@ -2,21 +2,19 @@ package com.konkuk.solvedac.problem.ui;
 
 import com.konkuk.solvedac.problem.application.ProblemService;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/problems")
 public class ProblemController {
 
     private final ProblemService problemService;
-
-    public ProblemController(ProblemService problemService) {
-        this.problemService = problemService;
-    }
 
     @GetMapping
     public ResponseEntity<ProblemInfoResponses> showAllProblems() {

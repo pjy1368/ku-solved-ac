@@ -15,20 +15,16 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final ProblemsProvider problemsProvider;
     private final ProblemService problemService;
     private final UserDao userDao;
-
-    public UserService(ProblemsProvider problemsProvider, ProblemService problemService, UserDao userDao) {
-        this.problemsProvider = problemsProvider;
-        this.problemService = problemService;
-        this.userDao = userDao;
-    }
 
     public void saveUsers(Long groupId, UserInfoResponses userInfosInGroup) {
         if (userInfosInGroup.getUserInfoResponses().isEmpty()) {

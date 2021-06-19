@@ -2,13 +2,14 @@ package com.konkuk.solvedac.problem.dao;
 
 import com.konkuk.solvedac.problem.domain.Problem;
 import java.sql.Types;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class ProblemDao {
 
@@ -21,10 +22,6 @@ public class ProblemDao {
             rs.getString("title"),
             rs.getLong("solved_count")
         );
-
-    public ProblemDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public void batchInsert(List<Problem> problems) {
         final String sql = "insert into PROBLEM (id, level, title, solved_count) values (?, ?, ?, ?)";

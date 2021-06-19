@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @Component
 public class Scheduler {
 
@@ -20,16 +22,6 @@ public class Scheduler {
     private final ProblemService problemService;
     private final UserService userService;
     private final JdbcTemplate jdbcTemplate;
-
-    public Scheduler(ProblemsProvider problemsProvider, UserInfoProvider userInfoProvider,
-        ProblemService problemService, UserService userService,
-        JdbcTemplate jdbcTemplate) {
-        this.problemsProvider = problemsProvider;
-        this.userInfoProvider = userInfoProvider;
-        this.problemService = problemService;
-        this.userService = userService;
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Scheduled(cron = "0 0 0/2 * * *")
     public void dbUpdate() {
