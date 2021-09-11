@@ -43,16 +43,16 @@ public class UserServiceTest {
     @DisplayName("특정 그룹 ID로 저장된 유저 리스트가 있는지 확인한다.")
     void isSavedUserInGroup() {
         given(userDao.existsByGroupId(GROUP_ID)).willReturn(true);
-        given(userDao.existsByGroupId(10000000L)).willReturn(false);
+        given(userDao.existsByGroupId(10000000)).willReturn(false);
 
         assertThat(userService.isSavedUserInGroup(GROUP_ID)).isTrue();
-        assertThat(userService.isSavedUserInGroup(10000000L)).isFalse();
+        assertThat(userService.isSavedUserInGroup(10000000)).isFalse();
 
         verify(userDao, times(1)).existsByGroupId(GROUP_ID);
-        verify(userDao, times(1)).existsByGroupId(10000000L);
+        verify(userDao, times(1)).existsByGroupId(10000000);
     }
 
-    private List<User> dtoToEntity(Long groupId, UserInfoResponses dto) {
+    private List<User> dtoToEntity(Integer groupId, UserInfoResponses dto) {
         return dto.getUserInfoResponses().stream()
             .map(userInfoResponse -> userInfoResponse.toEntity(groupId))
             .collect(Collectors.toList());

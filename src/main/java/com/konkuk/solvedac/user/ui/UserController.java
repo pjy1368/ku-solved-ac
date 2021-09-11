@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam("group_id") Long groupId) {
+    public ResponseEntity<UserInfoResponses> showUserInfosInGroup(@RequestParam("group_id") Integer groupId) {
         return ResponseEntity.ok(userService.findByGroupId(groupId));
     }
 

@@ -1,13 +1,12 @@
 package com.konkuk.solvedac.api.application;
 
 import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
-import static com.konkuk.solvedac.api.Constants.SERVER_URL;
-import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL;
+import static com.konkuk.solvedac.api.Constants.SERVER_URL_V3;
+import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL_V3;
 
 import com.konkuk.solvedac.user.dto.UserInfoResponse;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
-import com.konkuk.solvedac.user.dto.UserResultResponse;
-import com.konkuk.solvedac.user.dto.UsersResponse;
+import com.konkuk.solvedac.user.dto.UserResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,20 +24,20 @@ public class UserInfoProvider {
     }
 
     public UserInfoResponses getUserInfosInGroup(Long groupId) {
-        final String url = SERVER_URL + USERS_GROUP_URL + groupId + PER_PAGE_URL + "1";
+        final String url = SERVER_URL_V3 + USERS_GROUP_URL_V3 + groupId;
         return requestUserInfosInGroup(url);
     }
 
     private UserInfoResponses requestUserInfosInGroup(String url) {
-        final UsersResponse initialUsersResponse = template.getForObject(url, UsersResponse.class);
-        final UserResultResponse result = Objects.requireNonNull(initialUsersResponse).getResult();
+        final UserResponse userResponse = template.getForObject(url, UserResponse.class);
+        userResponse.setTotalPages((int) Math.ceil((userResponse.getTotalUsers() / 100.0)));
 
-        final long totalPages = Objects.requireNonNull(result.getTotalPage());
-        final List<UserInfoResponse> userInfoResponses = new ArrayList<>(result.getUsers());
+        final int totalPages = userResponse.getTotalPages();
+        List<UserInfoResponse> userInfoResponses = new ArrayList<>(userResponse.getUserInfoResponses());
 
         for (int i = 2; i <= totalPages; i++) {
             userInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
-                UsersResponse.class)).getResult().getUsers());
+                UserResponse.class).getUserInfoResponses()));
         }
         return new UserInfoResponses(userInfoResponses);
     }

@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class UsersResponse {
+public class Badge {
 
-    private boolean success;
-    private UserResultResponse result;
+    private String badgeId;
+
+    private String badgeImageUrl;
+
+    private String displayName;
+
+    private String displayDescription;
 }

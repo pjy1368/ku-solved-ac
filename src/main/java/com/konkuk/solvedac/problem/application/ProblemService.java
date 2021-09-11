@@ -42,7 +42,7 @@ public class ProblemService {
         saveProblems(userId, null, problemInfoResponses);
     }
 
-    public void saveProblems(String userId, Long groupId, ProblemInfoResponses problemInfoResponses) {
+    public void saveProblems(String userId, Integer groupId, ProblemInfoResponses problemInfoResponses) {
         if (problemInfoResponses.getProblemInfoResponses().isEmpty()) {
             throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
         }
@@ -52,7 +52,7 @@ public class ProblemService {
         problemDao.batchInsert(userId, groupId, problems);
     }
 
-    public void saveProblemsOnTemp(String userId, Long groupId, ProblemInfoResponses problemInfoResponses) {
+    public void saveProblemsOnTemp(String userId, Integer groupId, ProblemInfoResponses problemInfoResponses) {
         if (problemInfoResponses.getProblemInfoResponses().isEmpty()) {
             throw new NotFoundException("해당하는 유저가 존재하지 않거나, 해당 유저가 푼 문제가 없습니다.");
         }
@@ -81,25 +81,25 @@ public class ProblemService {
             .collect(Collectors.toList()));
     }
 
-    public ProblemInfoResponses findSolvedProblemByGroupId(Long groupId) {
+    public ProblemInfoResponses findSolvedProblemByGroupId(Integer groupId) {
         return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupId(groupId).stream()
             .map(ProblemInfoResponse::of)
             .collect(Collectors.toList()));
     }
 
-    public ProblemInfoResponses findUnsolvedProblemByGroupId(Long groupId) {
+    public ProblemInfoResponses findUnsolvedProblemByGroupId(Integer groupId) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupId(groupId).stream()
             .map(ProblemInfoResponse::of)
             .collect(Collectors.toList()));
     }
 
-    public ProblemInfoResponses findSolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+    public ProblemInfoResponses findSolvedProblemByGroupIdAndLevel(Integer groupId, int level) {
         return new ProblemInfoResponses(problemDao.findSolvedProblemByGroupIdAndLevel(groupId, level).stream()
             .map(ProblemInfoResponse::of)
             .collect(Collectors.toList()));
     }
 
-    public ProblemInfoResponses findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+    public ProblemInfoResponses findUnsolvedProblemByGroupIdAndLevel(Integer groupId, int level) {
         return new ProblemInfoResponses(problemDao.findUnsolvedProblemByGroupIdAndLevel(groupId, level).stream()
             .map(ProblemInfoResponse::of)
             .collect(Collectors.toList()));

@@ -17,7 +17,7 @@ public class UserDao {
     private final RowMapper<User> rowMapper = (rs, rowNum) ->
         new User(
             rs.getString("id"),
-            rs.getLong("group_id")
+            rs.getInt("group_id")
         );
 
     public void batchInsert(List<User> users) {
@@ -46,7 +46,7 @@ public class UserDao {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public List<User> findByGroupId(Long groupId) {
+    public List<User> findByGroupId(Integer groupId) {
         final String sql = "select * from USER where group_id = ?";
         return jdbcTemplate.query(sql, rowMapper, groupId);
     }
@@ -61,7 +61,7 @@ public class UserDao {
         return jdbcTemplate.queryForObject(sql, Boolean.class, userId);
     }
 
-    public boolean existsByGroupId(Long groupId) {
+    public boolean existsByGroupId(Integer groupId) {
         final String sql = "select exists(select * from USER where group_id = ?)";
         return jdbcTemplate.queryForObject(sql, Boolean.class, groupId);
     }

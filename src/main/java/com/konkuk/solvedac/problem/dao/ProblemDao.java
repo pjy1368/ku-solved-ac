@@ -43,17 +43,17 @@ public class ProblemDao {
         });
     }
 
-    public void batchInsert(String userId, Long groupId, List<Problem> problems) {
+    public void batchInsert(String userId, Integer groupId, List<Problem> problems) {
         final String sql = "insert into USER_PROBLEM_MAP (user_id, group_id, problem_id) values(?, ?, ?)";
         insert(userId, groupId, problems, sql);
     }
 
-    public void batchInsertTemp(String userId, Long groupId, List<Problem> problems) {
+    public void batchInsertTemp(String userId, Integer groupId, List<Problem> problems) {
         final String sql = "insert into TEMP_USER_PROBLEM_MAP (user_id, group_id, problem_id) values(?, ?, ?)";
         insert(userId, groupId, problems, sql);
     }
 
-    private void insert(String userId, Long groupId, List<Problem> problems, String sql) {
+    private void insert(String userId, Integer groupId, List<Problem> problems, String sql) {
         jdbcTemplate.batchUpdate(sql, problems, problems.size(), (ps, argument) -> {
             ps.setString(1, userId);
             if (Objects.isNull(groupId)) {
@@ -87,25 +87,25 @@ public class ProblemDao {
         return jdbcTemplate.query(sql, rowMapper, level);
     }
 
-    public List<Problem> findSolvedProblemByGroupId(Long groupId) {
+    public List<Problem> findSolvedProblemByGroupId(Integer groupId) {
         final String sql = "select * from PROBLEM where id in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
         return jdbcTemplate.query(sql, rowMapper, groupId);
     }
 
-    public List<Problem> findUnsolvedProblemByGroupId(Long groupId) {
+    public List<Problem> findUnsolvedProblemByGroupId(Integer groupId) {
         final String sql = "select * from PROBLEM where id not in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?)";
         return jdbcTemplate.query(sql, rowMapper, groupId);
     }
 
-    public List<Problem> findSolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+    public List<Problem> findSolvedProblemByGroupIdAndLevel(Integer groupId, int level) {
         final String sql = "select * from PROBLEM where level = ? and id in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?) order by solved_count desc";
         return jdbcTemplate.query(sql, rowMapper, level, groupId);
     }
 
-    public List<Problem> findUnsolvedProblemByGroupIdAndLevel(Long groupId, int level) {
+    public List<Problem> findUnsolvedProblemByGroupIdAndLevel(Integer groupId, int level) {
         final String sql = "select * from PROBLEM where level = ? and id not in "
             + "(select distinct(PROBLEM_ID) from USER_PROBLEM_MAP where group_id = ?) order by solved_count desc";
         return jdbcTemplate.query(sql, rowMapper, level, groupId);

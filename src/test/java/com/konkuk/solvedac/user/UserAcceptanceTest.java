@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 @Disabled
 public class UserAcceptanceTest extends AcceptanceTest {
 
-    public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Long groupId) {
+    public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Integer groupId) {
         return RestAssured
             .given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)

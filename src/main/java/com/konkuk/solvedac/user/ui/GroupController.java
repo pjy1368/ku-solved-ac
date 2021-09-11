@@ -17,24 +17,24 @@ public class GroupController {
     private final UserService userService;
 
     @GetMapping("/solved-problems")
-    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@PathVariable("id") Long groupId) {
+    public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsers(@PathVariable("id") Integer groupId) {
         return ResponseEntity.ok(userService.showSolvedProblemsOfUsers(groupId));
     }
 
     @GetMapping("/solved-problems/{tier}")
     public ResponseEntity<ProblemInfoResponses> showSolvedProblemsOfUsersByTier(
-        @PathVariable("id") Long groupId, @PathVariable String tier) {
+        @PathVariable("id") Integer groupId, @PathVariable String tier) {
         return ResponseEntity.ok(userService.showSolvedProblemsOfUsersByTier(groupId, tier));
     }
 
     @GetMapping("/unsolved-problems")
-    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@PathVariable("id") Long groupId) {
+    public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsers(@PathVariable("id") Integer groupId) {
         return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsers(groupId));
     }
 
     @GetMapping("/unsolved-problems/{tier}")
     public ResponseEntity<ProblemInfoResponses> showUnsolvedProblemsOfUsersByTier(
-        @PathVariable("id") Long groupId, @PathVariable String tier) {
+        @PathVariable("id") Integer groupId, @PathVariable String tier) {
         return ResponseEntity.ok(userService.showUnsolvedProblemsOfUsersByTier(groupId, tier));
     }
 }

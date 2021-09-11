@@ -26,7 +26,7 @@ public class UserService {
     private final ProblemService problemService;
     private final UserDao userDao;
 
-    public void saveUsers(Long groupId, UserInfoResponses userInfosInGroup) {
+    public void saveUsers(Integer groupId, UserInfoResponses userInfosInGroup) {
         if (userInfosInGroup.getUserInfoResponses().isEmpty()) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -37,7 +37,7 @@ public class UserService {
         userDao.batchInsert(users);
     }
 
-    public void saveUsersOnTemp(Long groupId, UserInfoResponses userInfosInGroup) {
+    public void saveUsersOnTemp(Integer groupId, UserInfoResponses userInfosInGroup) {
         if (userInfosInGroup.getUserInfoResponses().isEmpty()) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -48,7 +48,7 @@ public class UserService {
         userDao.batchInsertTemp(users);
     }
 
-    public void saveSolvedProblemsOfUsers(Long groupId, UserInfoResponses userInfoResponses) {
+    public void saveSolvedProblemsOfUsers(Integer groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getId)
             .collect(Collectors.toList());
@@ -61,7 +61,7 @@ public class UserService {
         }
     }
 
-    public void saveSolvedProblemsOfUsersOnTemp(Long groupId, UserInfoResponses userInfoResponses) {
+    public void saveSolvedProblemsOfUsersOnTemp(Integer groupId, UserInfoResponses userInfoResponses) {
         final List<String> nicknames = userInfoResponses.getUserInfoResponses().stream()
             .map(UserInfoResponse::getId)
             .collect(Collectors.toList());
@@ -74,7 +74,7 @@ public class UserService {
         }
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsers(Long groupId) {
+    public ProblemInfoResponses showSolvedProblemsOfUsers(Integer groupId) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -85,7 +85,7 @@ public class UserService {
         return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showUnsolvedProblemsOfUsers(Long groupId) {
+    public ProblemInfoResponses showUnsolvedProblemsOfUsers(Integer groupId) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -96,7 +96,7 @@ public class UserService {
         return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showSolvedProblemsOfUsersByTier(Long groupId, String tier) {
+    public ProblemInfoResponses showSolvedProblemsOfUsersByTier(Integer groupId, String tier) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -108,7 +108,7 @@ public class UserService {
         return ProblemInfoResponses.of(problems);
     }
 
-    public ProblemInfoResponses showUnsolvedProblemsOfUsersByTier(Long groupId, String tier) {
+    public ProblemInfoResponses showUnsolvedProblemsOfUsersByTier(Integer groupId, String tier) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
@@ -134,12 +134,12 @@ public class UserService {
         return problemService.findSolvedProblemByUserIdAndLevel(userId, LevelMapper.getLevel(tier));
     }
 
-    public UserInfoResponses findByGroupId(Long groupId) {
+    public UserInfoResponses findByGroupId(Integer groupId) {
         if (!userDao.existsByGroupId(groupId)) {
             throw new NotFoundException("해당하는 그룹이 존재하지 않거나, 해당 그룹에 속한 유저가 없습니다.");
         }
         return new UserInfoResponses(userDao.findByGroupId(groupId).stream()
-            .map(user -> new UserInfoResponse(user.getId()))
+            .map(UserInfoResponse::from)
             .collect(Collectors.toList()));
     }
 
@@ -147,7 +147,7 @@ public class UserService {
         userDao.deleteAllUsers();
     }
 
-    public boolean isSavedUserInGroup(Long groupId) {
+    public boolean isSavedUserInGroup(Integer groupId) {
         return userDao.existsByGroupId(groupId);
     }
 }

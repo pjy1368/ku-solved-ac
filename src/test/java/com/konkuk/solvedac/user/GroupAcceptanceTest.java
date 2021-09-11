@@ -22,7 +22,7 @@ public class GroupAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("존재하지 않는 그룹이거나 그룹의 유저가 없으면 404번 에러가 발생한다.")
     void showUserInfosInGroupFail() {
-        ExtractableResponse<Response> response = 특정_그룹_유저_조회_요청(-1L);
+        ExtractableResponse<Response> response = 특정_그룹_유저_조회_요청(-1);
         특정_그룹_유저_목록_실패됨(response);
     }
 
@@ -60,7 +60,7 @@ public class GroupAcceptanceTest extends AcceptanceTest {
         특정_그룹_틀린_문제_티어_별_목록_응답됨(response);
     }
 
-    private ExtractableResponse<Response> 특정_그룹_맞은_문제_조회_요청(Long groupId) {
+    private ExtractableResponse<Response> 특정_그룹_맞은_문제_조회_요청(Integer groupId) {
         return RestAssured
             .given().log().all()
             .when().get("/groups/" + groupId + "/solved-problems")
@@ -68,7 +68,7 @@ public class GroupAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-    private ExtractableResponse<Response> 특정_그룹_맞은_문제_티어_별_조회_요청(Long groupId, String tier) {
+    private ExtractableResponse<Response> 특정_그룹_맞은_문제_티어_별_조회_요청(Integer groupId, String tier) {
         return RestAssured
             .given().log().all()
             .when().get("/groups/" + groupId + "/solved-problems/" + tier)
@@ -76,7 +76,7 @@ public class GroupAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-    private ExtractableResponse<Response> 특정_그룹_틀린_문제_조회_요청(Long groupId) {
+    private ExtractableResponse<Response> 특정_그룹_틀린_문제_조회_요청(Integer groupId) {
         return RestAssured
             .given().log().all()
             .when().get("/groups/" + groupId + "/unsolved-problems")
@@ -84,7 +84,7 @@ public class GroupAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-    private ExtractableResponse<Response> 특정_그룹_틀린_문제_티어_별_조회_요청(Long groupId, String tier) {
+    private ExtractableResponse<Response> 특정_그룹_틀린_문제_티어_별_조회_요청(Integer groupId, String tier) {
         return RestAssured
             .given().log().all()
             .when().get("/groups/" + groupId + "/unsolved-problems/" + tier)
