@@ -17,10 +17,10 @@ public class ProblemDao {
 
     private final RowMapper<Problem> rowMapper = (rs, rowNum) ->
         new Problem(
-            rs.getLong("id"),
+            rs.getInt("id"),
             rs.getInt("level"),
             rs.getString("title"),
-            rs.getLong("solved_count")
+            rs.getInt("solved_count")
         );
 
     public void batchInsert(List<Problem> problems) {
@@ -112,12 +112,12 @@ public class ProblemDao {
     }
 
     public void deleteAllProblems() {
-        final String sql = "truncate table PROBLEM";
+        final String sql = "delete from PROBLEM";
         jdbcTemplate.update(sql);
     }
 
     public void deleteAllProblemMap() {
-        final String sql = "truncate table USER_PROBLEM_MAP";
+        final String sql = "delete from USER_PROBLEM_MAP";
         jdbcTemplate.update(sql);
     }
 

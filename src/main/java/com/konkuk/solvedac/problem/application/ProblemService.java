@@ -18,11 +18,10 @@ public class ProblemService {
     private final ProblemDao problemDao;
 
     public ProblemInfoResponses findAllProblems() {
-        final List<ProblemInfoResponse> problemInfoResponses = problemDao.findAllProblems().stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
-                problem.getTitle(), problem.getSolvedCount()))
+        final List<ProblemInfoResponse> problemResponse = problemDao.findAllProblems().stream()
+            .map(ProblemInfoResponse::of)
             .collect(Collectors.toList());
-        return new ProblemInfoResponses(problemInfoResponses);
+        return new ProblemInfoResponses(problemResponse);
     }
 
     public void saveProblems(ProblemInfoResponses problemInfoResponses) {
@@ -66,8 +65,7 @@ public class ProblemService {
     public ProblemInfoResponses findProblemByTier(String tier) {
         final int level = LevelMapper.getLevel(tier);
         return new ProblemInfoResponses(problemDao.findProblemByLevel(level).stream()
-            .map(problem -> new ProblemInfoResponse(problem.getId(), problem.getLevel(),
-                problem.getTitle(), problem.getSolvedCount()))
+            .map(ProblemInfoResponse::of)
             .collect(Collectors.toList()));
     }
 

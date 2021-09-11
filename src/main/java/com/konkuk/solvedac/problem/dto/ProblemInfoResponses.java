@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProblemInfoResponses {
 
-    private List<ProblemInfoResponse> problemInfoResponses;
+    List<ProblemInfoResponse> problemInfoResponses;
 
     public static ProblemInfoResponses of(Set<Problem> problems) {
-        return new ProblemInfoResponses(
-            problems.stream()
-                .map(ProblemInfoResponse::of)
-                .collect(Collectors.toList())
+        return new ProblemInfoResponses(problems.stream()
+            .map(ProblemInfoResponse::of)
+            .collect(Collectors.toList())
         );
     }
 }

@@ -1,15 +1,14 @@
 package com.konkuk.solvedac.api.application;
 
-import static com.konkuk.solvedac.api.Constants.ALL_PROBLEMS_QUERY;
+import static com.konkuk.solvedac.api.Constants.ALL_PROBLEMS_QUERY_V3;
 import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
-import static com.konkuk.solvedac.api.Constants.PROBLEMS_URL;
-import static com.konkuk.solvedac.api.Constants.SERVER_URL;
-import static com.konkuk.solvedac.api.Constants.SOLVED_PROBLEMS_URL;
+import static com.konkuk.solvedac.api.Constants.PROBLEMS_URL_V3;
+import static com.konkuk.solvedac.api.Constants.SERVER_URL_V3;
+import static com.konkuk.solvedac.api.Constants.SOLVED_PROBLEMS_URL_V3;
 
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponse;
 import com.konkuk.solvedac.problem.dto.ProblemInfoResponses;
-import com.konkuk.solvedac.problem.dto.ProblemResultResponse;
-import com.konkuk.solvedac.problem.dto.ProblemsResponse;
+import com.konkuk.solvedac.problem.dto.ProblemResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,25 +26,30 @@ public class ProblemsProvider {
     }
 
     public ProblemInfoResponses getSolvedProblems(String userId) {
-        final String url = SERVER_URL + SOLVED_PROBLEMS_URL + userId;
+        final String url = SERVER_URL_V3 + SOLVED_PROBLEMS_URL_V3 + userId;
         return requestProblems(url);
     }
 
     public ProblemInfoResponses getAllProblems() {
-        final String url = SERVER_URL + PROBLEMS_URL + ALL_PROBLEMS_QUERY;
+        final String url = SERVER_URL_V3 + PROBLEMS_URL_V3 + ALL_PROBLEMS_QUERY_V3;
         return requestProblems(url);
     }
 
     private ProblemInfoResponses requestProblems(String url) {
-        final ProblemsResponse initialProblemsResponse = template.getForObject(url, ProblemsResponse.class);
-        final ProblemResultResponse result = Objects.requireNonNull(initialProblemsResponse).getResult();
+        ProblemResponse problemResponse = template.getForObject(url, ProblemResponse.class);
+        problemResponse.setTotalPages((int) Math.ceil((problemResponse.getTotalProblems() / 100.0)));
 
-        final long totalPages = Objects.requireNonNull(result.getTotalPage());
-        final List<ProblemInfoResponse> problemInfoResponses = new ArrayList<>(result.getProblems());
+        final int totalPages = problemResponse.getTotalPages();
+        final List<ProblemInfoResponse> problemInfoResponses = new ArrayList<>(problemResponse.getProblemInfoResponses());
 
         for (int i = 2; i <= totalPages; i++) {
             problemInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
-                ProblemsResponse.class)).getResult().getProblems());
+                ProblemResponse.class).getProblemInfoResponses()));
+            try {
+                Thread.sleep(340);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return new ProblemInfoResponses(problemInfoResponses);
     }

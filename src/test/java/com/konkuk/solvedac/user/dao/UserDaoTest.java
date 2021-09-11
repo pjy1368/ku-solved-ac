@@ -44,6 +44,6 @@ class UserDaoTest {
     @DisplayName("모든 유저 리스트를 삭제한다.")
     void deleteAll() {
         userDao.deleteAllUsers();
-        assertThat(userDao.findAll()).hasSize(0);
+        assertThat(userDao.findAll()).isEmpty();
     }
 }

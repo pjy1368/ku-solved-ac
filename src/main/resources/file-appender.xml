@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <included>
-  <property name="home" value="log/" />
-
-  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="file">
+    <encoder>
+      <Pattern>
+        %d{yyyy-MM-dd HH:mm:ss.SSS} %thread %-5level %logger - %m%n
+      </Pattern>
+      <charset>utf8</charset>
+    </encoder>
     <file>${home}file.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>${home}file-%d{yyyyMMdd}-%i.log</fileNamePattern>
@@ -11,11 +15,7 @@
         <maxFileSize>15MB</maxFileSize>
       </timeBasedFileNamingAndTriggeringPolicy>
     </rollingPolicy>
-    <encoder>
-      <charset>utf8</charset>
-      <Pattern>
-        %d{yyyy-MM-dd HH:mm:ss.SSS} %thread %-5level %logger - %m%n
-      </Pattern>
-    </encoder>
   </appender>
+
+  <property name="home" value="log/"/>
 </included>

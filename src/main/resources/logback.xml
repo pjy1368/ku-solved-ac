@@ -1,9 +1,9 @@
 <configuration debug="false">
 
-  <include resource="org/springframework/boot/logging/logback/base.xml" />
-  <include resource="file-appender.xml" />
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <include resource="file-appender.xml"/>
 
-  <logger name="file" level="INFO" >
-    <appender-ref ref="file" />
+  <logger level="INFO" name="file">
+    <appender-ref ref="file"/>
   </logger>
 </configuration>

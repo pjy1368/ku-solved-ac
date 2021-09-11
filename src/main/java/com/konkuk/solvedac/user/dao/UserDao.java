@@ -52,7 +52,7 @@ public class UserDao {
     }
 
     public void deleteAllUsers() {
-        final String sql = "truncate table USER";
+        final String sql = "delete from USER";
         jdbcTemplate.update(sql);
     }
 

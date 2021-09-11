@@ -58,7 +58,7 @@ class ProblemServiceTest {
     void findProblemByTier(String tier) {
         final int level = LevelMapper.getLevel(tier);
         final List<Problem> expected = Collections.singletonList(
-            new Problem(1L, level, "test", 10L)
+            new Problem(1, level, "test", 10)
         );
         given(problemDao.findProblemByLevel(level)).willReturn(expected);
 

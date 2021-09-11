@@ -1,35 +1,53 @@
 package com.konkuk.solvedac.problem.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.konkuk.solvedac.problem.domain.Problem;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Getter
 public class ProblemInfoResponse {
 
-    @NonNull
-    private Long id;
-    @NonNull
-    private Integer level;
-    private Short levelLocked;
-    private Short solvable;
-    @NonNull
+    private Integer problemId;
+
+    @JsonProperty("titleKo")
     private String title;
-    @NonNull
-    private Long solvedCount;
-    private Double averageTry;
+
+    private Boolean isSolvable;
+
+    private Boolean isPartial;
+
+    @JsonProperty("acceptedUserCount")
+    private Integer solvedCount;
+
+    private Integer level;
+
+    private Integer votedUserCount;
+
+    private Boolean isLevelLocked;
+
+    private Double averageTries;
 
     public static ProblemInfoResponse of(Problem problem) {
-        return new ProblemInfoResponse(problem.getId(), problem.getLevel(), problem.getTitle(), problem.getSolvedCount());
+        return builder()
+            .problemId(problem.getId())
+            .level(problem.getLevel())
+            .title(problem.getTitle())
+            .solvedCount(problem.getSolvedCount())
+            .build();
     }
 
     public Problem toEntity() {
-        return new Problem(id, level, title, solvedCount);
+        return Problem.builder()
+            .id(problemId)
+            .level(level)
+            .solvedCount(solvedCount)
+            .title(title)
+            .build();
     }
 }

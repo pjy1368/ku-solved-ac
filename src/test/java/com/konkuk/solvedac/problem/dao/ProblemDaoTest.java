@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
-
+@Disabled
 @JdbcTest
 @Sql("classpath:schema.sql")
 class ProblemDaoTest {
@@ -89,7 +90,7 @@ class ProblemDaoTest {
     @DisplayName("모든 문제 리스트를 삭제한다.")
     void deleteAllProblems() {
         problemDao.deleteAllProblems();
-        assertThat(problemDao.findAllProblems()).hasSize(0);
+        assertThat(problemDao.findAllProblems()).isEmpty();
     }
 
     @Test

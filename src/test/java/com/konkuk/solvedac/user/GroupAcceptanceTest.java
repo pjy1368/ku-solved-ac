@@ -8,12 +8,15 @@ import com.konkuk.solvedac.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 
+
+@Disabled
 public class GroupAcceptanceTest extends AcceptanceTest {
 
     @Test

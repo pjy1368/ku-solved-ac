@@ -8,6 +8,7 @@ import com.konkuk.solvedac.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +16,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+@Disabled
 public class UserAcceptanceTest extends AcceptanceTest {
+
+    public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Long groupId) {
+        return RestAssured
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().get("/users?group_id=" + groupId)
+            .then().log().all()
+            .extract();
+    }
 
     @Test
     @DisplayName("특정 그룹에 속한 유저 리스트를 조회한다.")
@@ -56,20 +67,11 @@ public class UserAcceptanceTest extends AcceptanceTest {
         특정_유저_맞은_문제_티어_별_목록_응답됨(response);
     }
 
-    public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Long groupId) {
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/users?group_id=" + groupId)
-            .then().log().all()
-            .extract();
-    }
-
     private ExtractableResponse<Response> 문제_조회_요청(String userId) {
         return RestAssured
             .given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/users/" + userId+ "/problems")
+            .when().get("/users/" + userId + "/problems")
             .then().log().all()
             .extract();
     }
