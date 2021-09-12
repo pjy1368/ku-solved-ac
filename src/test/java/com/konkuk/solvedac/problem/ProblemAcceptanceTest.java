@@ -13,7 +13,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 
-@Disabled
 public class ProblemAcceptanceTest extends AcceptanceTest {
 
     @Test

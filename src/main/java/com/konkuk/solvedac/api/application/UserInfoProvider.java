@@ -1,8 +1,9 @@
 package com.konkuk.solvedac.api.application;
 
+import static com.konkuk.solvedac.api.Constants.DATA_COUNT_PER_PAGE;
 import static com.konkuk.solvedac.api.Constants.PER_PAGE_URL;
-import static com.konkuk.solvedac.api.Constants.SERVER_URL_V3;
-import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL_V3;
+import static com.konkuk.solvedac.api.Constants.SERVER_URL;
+import static com.konkuk.solvedac.api.Constants.USERS_GROUP_URL;
 
 import com.konkuk.solvedac.user.dto.UserInfoResponse;
 import com.konkuk.solvedac.user.dto.UserInfoResponses;
@@ -23,22 +24,27 @@ public class UserInfoProvider {
         this.template = restTemplateBuilder.build();
     }
 
-    public UserInfoResponses getUserInfosInGroup(Long groupId) {
-        final String url = SERVER_URL_V3 + USERS_GROUP_URL_V3 + groupId;
+    public UserInfoResponses getUserInfosInGroup(Integer groupId) {
+        final String url = SERVER_URL + USERS_GROUP_URL + groupId;
         return requestUserInfosInGroup(url);
     }
 
     private UserInfoResponses requestUserInfosInGroup(String url) {
-        final UserResponse userResponse = template.getForObject(url, UserResponse.class);
-        userResponse.setTotalPages((int) Math.ceil((userResponse.getTotalUsers() / 100.0)));
+        try {
+            final UserResponse userResponse = template.getForObject(url, UserResponse.class);
+            Thread.sleep(1200);
 
-        final int totalPages = userResponse.getTotalPages();
-        List<UserInfoResponse> userInfoResponses = new ArrayList<>(userResponse.getUserInfoResponses());
+            final int totalPages = (int) Math.ceil((userResponse.getTotalUsers() / DATA_COUNT_PER_PAGE));
+            List<UserInfoResponse> userInfoResponses = new ArrayList<>(userResponse.getUserInfoResponses());
 
-        for (int i = 2; i <= totalPages; i++) {
-            userInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
-                UserResponse.class).getUserInfoResponses()));
+            for (int i = 2; i <= totalPages; i++) {
+                userInfoResponses.addAll(Objects.requireNonNull(template.getForObject(url + PER_PAGE_URL + i,
+                    UserResponse.class).getUserInfoResponses()));
+                Thread.sleep(1200);
+            }
+            return new UserInfoResponses(userInfoResponses);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("API 요청 대기 시간 중 에러가 발생했습니다.");
         }
-        return new UserInfoResponses(userInfoResponses);
     }
 }

@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-@Disabled
 public class UserAcceptanceTest extends AcceptanceTest {
 
     public static ExtractableResponse<Response> 특정_그룹_유저_조회_요청(Integer groupId) {
